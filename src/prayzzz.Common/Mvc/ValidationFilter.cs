@@ -14,7 +14,7 @@ namespace prayzzz.Common.Mvc
 
             if (!context.ModelState.IsValid)
             {
-                context.Result = new BadRequestResult();
+                context.Result = new BadRequestObjectResult(context.ModelState);
             }
         }
     }
