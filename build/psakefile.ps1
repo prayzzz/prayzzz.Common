@@ -9,7 +9,12 @@ properties {
     $outputFolder = "dist/"
 
     # Version
-    $version = "1.0.$buildNumber"
+    if ($config -eq "Debug") {
+        $version = "1.0.$buildNumber"
+    }
+    else {
+        $version = $buildNumber
+    }
 
     # Teamcity
     $isTeamcity = $env:TEAMCITY_VERSION
