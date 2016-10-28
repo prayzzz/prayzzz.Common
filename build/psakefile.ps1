@@ -8,8 +8,6 @@ properties {
     $commonProjectDir = "src/prayzzz.Common";    
     $outputFolder = "dist/"
 
-    Write-Host $buildNumber
-
     # Version
     $version = "1.0.$buildNumber"
 
