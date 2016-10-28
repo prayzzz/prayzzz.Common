@@ -3,13 +3,13 @@ properties {
         
     # Project
     $config = Get-Value-Or-Default($env:CONFIGURATION, "Debug")
-    $buildCounter = Get-Value-Or-Default($env:BUILD_COUNTER, "1")
+    $buildNumber = Get-Value-Or-Default($env:BUILD_NUMBER, "1")
     
     $commonProjectDir = "src/prayzzz.Common";    
     $outputFolder = "dist/"
 
     # Version
-    $version = "1.0.$buildCounter"
+    $version = "1.0.$buildNumber"
 
     # Teamcity
     $isTeamcity = $env:TEAMCITY_VERSION
@@ -18,7 +18,8 @@ properties {
     # Change to root directory
     Set-Location "../"
 
-    Write-Host "Building $version"
+    Write-Host "Configuration: $config"
+    Write-Host "Version: $version"
 }
 
 FormatTaskName {
