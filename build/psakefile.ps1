@@ -2,11 +2,13 @@ properties {
     Import-Module psake-contrib/teamcity.psm1
         
     # Project
-    $config = Get-Value-Or-Default($env:CONFIGURATION, "Debug")
-    $buildNumber = Get-Value-Or-Default($env:BUILD_NUMBER, "1")
+    $config = Get-Value-Or-Default $env:CONFIGURATION "Debug"
+    $buildNumber = Get-Value-Or-Default $env:BUILD_NUMBER "1"
     
     $commonProjectDir = "src/prayzzz.Common";    
     $outputFolder = "dist/"
+
+    Write-Host $buildNumber
 
     # Version
     $version = "1.0.$buildNumber"
@@ -49,7 +51,7 @@ task Dotnet-Restore {
 }
 
 task Set-Version {
-    Apply-Version("$commonProjectDir/project.json")
+    Apply-Version "$commonProjectDir/project.json"
 }
 
 task Dotnet-Build -depends Dotnet-Restore, Set-Version {
@@ -57,11 +59,11 @@ task Dotnet-Build -depends Dotnet-Restore, Set-Version {
 }
 
 task Dotnet-Test -depends Dotnet-Build {
-    #Run-Test("prayzzz.Common.Test")
+    #Run-Test "prayzzz.Common.Test"
 }
 
 task Dotnet-Pack -depends Dotnet-Build {
-    Pack-Project("prayzzz.Common")
+    Pack-Project "prayzzz.Common"
 }
 
 function Pack-Project($project){
