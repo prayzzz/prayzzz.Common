@@ -10,10 +10,10 @@ properties {
 
     # Version
     if ($config -eq "Debug") {
-        $version = "1.0.$buildNumber"
+        $version = $buildNumber
     }
     else {
-        $version = $buildNumber
+        $version = "1.0.$buildNumber"
     }
 
     # Teamcity
