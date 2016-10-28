@@ -1,13 +1,18 @@
 properties {
     Import-Module psake-contrib/teamcity.psm1
 
-    $config = "Debug"
+    # Version
+    $date = Get-Date -Format yyyy.MM.dd;
+    $minutes = [math]::Round([datetime]::Now.TimeOfDay.TotalMinutes)
+    $version = "1.0.0-$date.$minutes"
+
+    # Project
+    $config = Get-Value-Or-Default($env:CONFIGURATION, "Debug")
+    
+    $commonProjectDir = "src/prayzzz.Common";    
     $outputFolder = "dist/"
 
-    $date = Get-Date -Format yyyy.MM.dd;
-    $seconds = [math]::Round([datetime]::Now.TimeOfDay.TotalMinutes)
-    $version = "$date.$seconds"
-
+    # Teamcity
     $isTeamcity = $env:TEAMCITY_VERSION
     if ($isTeamCity) { TeamCity-SetBuildNumber $version }
 
@@ -44,11 +49,11 @@ task Dotnet-Restore {
 }
 
 task Set-Version {
-    Apply-Version("src/prayzzz.Common/project.json")
+    Apply-Version("$commonProjectDir/project.json")
 }
 
 task Dotnet-Build -depends Dotnet-Restore, Set-Version {
-    exec { dotnet build "src/prayzzz.Common/" --configuration $config }
+    exec { dotnet build $commonProjectDir --configuration $config }
 }
 
 task Dotnet-Test -depends Dotnet-Build {
@@ -82,4 +87,12 @@ function Run-Test ($project) {
     if ($isTeamCity) {
         TeamCity-TestSuiteFinished $project
     }
+}
+
+function Get-Value-Or-Default($value, $default) {
+    if (!$value -or $value -eq "") {
+        return $default
+    }
+
+    return $value;
 }
