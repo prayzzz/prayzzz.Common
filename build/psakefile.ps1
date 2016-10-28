@@ -1,16 +1,15 @@
 properties {
     Import-Module psake-contrib/teamcity.psm1
-
-    # Version
-    $date = Get-Date -Format yyyy.MM.dd;
-    $minutes = [math]::Round([datetime]::Now.TimeOfDay.TotalMinutes)
-    $version = "1.0.0-$date.$minutes"
-
+        
     # Project
     $config = Get-Value-Or-Default($env:CONFIGURATION, "Debug")
+    $buildCounter = Get-Value-Or-Default($env:BUILD_COUNTER, "1")
     
     $commonProjectDir = "src/prayzzz.Common";    
     $outputFolder = "dist/"
+
+    # Version
+    $version = "1.0.$buildCounter"
 
     # Teamcity
     $isTeamcity = $env:TEAMCITY_VERSION
