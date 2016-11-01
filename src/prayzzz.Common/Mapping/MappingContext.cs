@@ -2,18 +2,18 @@
 
 namespace prayzzz.Common.Mapping
 {
-    public class MappingCtx
+    public class MappingContext
     {
         private readonly Dictionary<string, object> _parameters;
 
-        public MappingCtx()
+        public MappingContext()
         {
             _parameters = new Dictionary<string, object>();
         }
 
         public IMapper Mapper { get; set; }
 
-        public MappingCtx PutParam(string key, object value)
+        public MappingContext PutParam(string key, object value)
         {
             if (_parameters.ContainsKey(key))
             {

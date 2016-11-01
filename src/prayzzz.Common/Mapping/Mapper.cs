@@ -17,7 +17,7 @@ namespace prayzzz.Common.Mapping
             }
         }
 
-        public TTarget Map<TTarget>(object source, MappingCtx context) where TTarget : class
+        public TTarget Map<TTarget>(object source, MappingContext context) where TTarget : class
         {
             var sourceType = source.GetType();
             var targetType = typeof(TTarget);
@@ -46,7 +46,7 @@ namespace prayzzz.Common.Mapping
             throw new MissingMethodException("No mapping method found");
         }
 
-        public TTarget Map<TTarget>(object source, TTarget target, MappingCtx context) where TTarget : class
+        public TTarget Map<TTarget>(object source, TTarget target, MappingContext context) where TTarget : class
         {
             var sourceType = source.GetType();
             var targetType = typeof(TTarget);
@@ -76,15 +76,15 @@ namespace prayzzz.Common.Mapping
 
         public TTarget Map<TTarget>(object source) where TTarget : class
         {
-            return Map<TTarget>(source, new MappingCtx());
+            return Map<TTarget>(source, new MappingContext());
         }
 
         public TTarget Map<TTarget>(object source, TTarget target) where TTarget : class
         {
-            return Map(source, target, new MappingCtx());
+            return Map(source, target, new MappingContext());
         }
 
-        public void Configure<TSource, TTarget>(Func<TSource, TTarget, MappingCtx, TTarget> func) where TTarget : class
+        public void Configure<TSource, TTarget>(Func<TSource, TTarget, MappingContext, TTarget> func) where TTarget : class
         {
             var tuple = new TypeTuple(typeof(TSource), typeof(TTarget));
 
@@ -98,7 +98,7 @@ namespace prayzzz.Common.Mapping
             rule.MapWithTarget = func;
         }
 
-        public void Configure<TSource, TTarget>(Func<TSource, MappingCtx, TTarget> func) where TTarget : class
+        public void Configure<TSource, TTarget>(Func<TSource, MappingContext, TTarget> func) where TTarget : class
         {
             var tuple = new TypeTuple(typeof(TSource), typeof(TTarget));
 
