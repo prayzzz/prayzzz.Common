@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace prayzzz.Common.Mvc
+namespace prayzzz.Common.Mvc.Filters
 {
     /// <summary>
     ///     Cancels the Action with BadRequest (400), if the ModelState is invalid.
