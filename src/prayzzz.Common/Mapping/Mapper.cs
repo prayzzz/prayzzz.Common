@@ -19,6 +19,11 @@ namespace prayzzz.Common.Mapping
 
         public TTarget Map<TTarget>(object source, MappingContext context) where TTarget : class
         {
+            if (source == null)
+            {
+                return null;
+            }
+
             var sourceType = source.GetType();
             var targetType = typeof(TTarget);
 
@@ -48,6 +53,11 @@ namespace prayzzz.Common.Mapping
 
         public TTarget Map<TTarget>(object source, TTarget target, MappingContext context) where TTarget : class
         {
+            if (source == null)
+            {
+                return null;
+            }
+
             var sourceType = source.GetType();
             var targetType = typeof(TTarget);
 
@@ -91,7 +101,7 @@ namespace prayzzz.Common.Mapping
             MappingRule rule;
             if (!_rules.TryGetValue(tuple, out rule))
             {
-                rule = new MappingRule(); 
+                rule = new MappingRule();
                 _rules.Add(tuple, rule);
             }
 
