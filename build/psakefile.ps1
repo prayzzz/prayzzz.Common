@@ -83,6 +83,7 @@ function Apply-Version ($file) {
 
 	$stream = [System.IO.StreamWriter] $file
 	$xml.Save($stream)
+	$stream.close();
 }
 
 function Run-Test ($project) {
