@@ -77,9 +77,12 @@ function Pack-Project($project){
 }
 
 function Apply-Version ($file) {
-	$xml = [xml](Get-Content $file)		
+	$xml = NEW-OBJECT XML
+	$xml.Load($file)
 	$xml.Project.PropertyGroup[0].Version = $version
-	$xml.Save($file)
+
+	$stream = [System.IO.StreamWriter] $file
+	$xml.Save($stream)
 }
 
 function Run-Test ($project) {
