@@ -10,7 +10,7 @@ properties {
     $outputFolder = "dist/"
 
     # Version
-    if ($config -eq "Release") {
+    if ($config -eq "Debug") {
         $version = $buildNumber
     }
     else {
@@ -67,14 +67,14 @@ task Dotnet-Test -depends Dotnet-Build {
 }
 
 task Dotnet-Pack -depends Dotnet-Test {
-    Pack-Project "prayzzz.Common"
+    Pack-Project $commonProjectFile
 }
 
-function Pack-Project($project){
-    exec { dotnet pack $commonProjectFile --configuration $config --no-build --output $outputFolder }
+function Pack-Project($projectFile){
+    exec { dotnet pack $projectFile --configuration $config --no-build --output ../../$outputFolder }
 
-    $file = $outputFolder + "$project.$version.nupkg"
-    exec { nuget push $file $env:NUGET_APIKEY -Source https://www.nuget.org/api/v2/package }
+#    $file = $outputFolder + "$project.$version.nupkg"
+#    exec { nuget push $file $env:NUGET_APIKEY -Source https://www.nuget.org/api/v2/package }
 }
 
 function Apply-Version ($file) {        
