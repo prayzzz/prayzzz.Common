@@ -2,14 +2,14 @@ properties {
     Import-Module psake-contrib/teamcity.psm1
         
     # Project
-    $config = Get-Value-Or-Default $env:CONFIGURATION "Debug"
+    $config = Get-Value-Or-Default $env:CONFIGURATION "Release"
     $buildNumber = Get-Value-Or-Default $env:BUILD_NUMBER "1"
     
     $commonProjectDir = "src/prayzzz.Common";    
     $outputFolder = "dist/"
 
     # Version
-    if ($config -eq "Debug") {
+    if ($config -eq "Release") {
         $version = $buildNumber
     }
     else {
@@ -65,7 +65,7 @@ task Dotnet-Test -depends Dotnet-Build {
     #Run-Test "prayzzz.Common.Test"
 }
 
-task Dotnet-Pack -depends Dotnet-Build {
+task Dotnet-Pack -depends Dotnet-Test {
     Pack-Project "prayzzz.Common"
 }
 
