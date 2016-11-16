@@ -58,7 +58,7 @@ task Set-Version {
 }
 
 task Dotnet-Build -depends Dotnet-Restore, Set-Version {
-    exec { dotnet build $commonProjectDir --configuration $config }
+    exec { dotnet build "$commonProjectDir/prayzzz.Common.csproj" --configuration $config }
 }
 
 task Dotnet-Test -depends Dotnet-Build {
