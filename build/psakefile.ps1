@@ -6,6 +6,7 @@ properties {
     $buildNumber = Get-Value-Or-Default $env:BUILD_NUMBER "1"
     
     $commonProjectDir = "src/prayzzz.Common";    
+    $commonProjectFile = "src/prayzzz.Common/prayzzz.Common.csproj";    
     $outputFolder = "dist/"
 
     # Version
@@ -54,11 +55,11 @@ task Dotnet-Restore {
 }
 
 task Set-Version {
-    Apply-Version "$commonProjectDir/prayzzz.Common.csproj"
+    Apply-Version $commonProjectFile
 }
 
 task Dotnet-Build -depends Dotnet-Restore, Set-Version {
-    exec { dotnet build "$commonProjectDir/prayzzz.Common.csproj" --configuration $config }
+    exec { dotnet build $commonProjectFile --configuration $config }
 }
 
 task Dotnet-Test -depends Dotnet-Build {
@@ -70,7 +71,7 @@ task Dotnet-Pack -depends Dotnet-Test {
 }
 
 function Pack-Project($project){
-    exec { dotnet pack "src/$project/" --configuration $config --no-build --output $outputFolder }
+    exec { dotnet pack $commonProjectFile --configuration $config --no-build --output $outputFolder }
 
     $file = $outputFolder + "$project.$version.nupkg"
     exec { nuget push $file $env:NUGET_APIKEY -Source https://www.nuget.org/api/v2/package }
