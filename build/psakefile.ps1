@@ -76,14 +76,18 @@ function Pack-Project($project){
     exec { nuget push $file $env:NUGET_APIKEY -Source https://www.nuget.org/api/v2/package }
 }
 
-function Apply-Version ($file) {
-	$xml = NEW-OBJECT XML
-	$xml.Load($file)
-	$xml.Project.PropertyGroup[0].Version = $version
+function Apply-Version ($file) {        
+    $xml = NEW-OBJECT XML
 
-	$stream = [System.IO.StreamWriter] $file
-	$xml.Save($stream)
-	$stream.close();
+    Using-Object ($reader = [System.IO.StreamReader] $file)    {
+        $xml.Load($reader)    
+    }
+
+    $xml.Project.PropertyGroup[0].Version = $version
+
+    Using-Object ($writer = [System.IO.StreamWriter] $file) {
+        $xml.Save($writer)
+    }
 }
 
 function Run-Test ($project) {
@@ -104,4 +108,33 @@ function Get-Value-Or-Default($value, $default) {
     }
 
     return $value;
+}
+
+function Using-Object
+{
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyString()]
+        [AllowEmptyCollection()]
+        [AllowNull()]
+        [Object]
+        $InputObject,
+ 
+        [Parameter(Mandatory = $true)]
+        [scriptblock]
+        $ScriptBlock
+    )
+ 
+    try
+    {
+        . $ScriptBlock
+    }
+    finally
+    {
+        if ($null -ne $InputObject -and $InputObject -is [System.IDisposable])
+        {
+            $InputObject.Dispose()
+        }
+    }
 }
