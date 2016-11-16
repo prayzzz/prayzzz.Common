@@ -13,7 +13,7 @@ properties {
         $version = $buildNumber
     }
     else {
-        $version = "1.0.$buildNumber"
+        $version = "1.0.0-ci-$buildNumber"
     }
 
     # Teamcity
@@ -54,7 +54,7 @@ task Dotnet-Restore {
 }
 
 task Set-Version {
-    Apply-Version "$commonProjectDir/project.json"
+    Apply-Version "$commonProjectDir/prayzzz.Common.csproj"
 }
 
 task Dotnet-Build -depends Dotnet-Restore, Set-Version {
@@ -77,9 +77,9 @@ function Pack-Project($project){
 }
 
 function Apply-Version ($file) {
-    $project = ConvertFrom-Json -InputObject (Gc $file -Raw)
-    $project.version = $version
-    $project | ConvertTo-Json -depth 100 | Out-File $file
+	$xml = [xml](Get-Content $file)		
+	$xml.Project.PropertyGroup[0].Version = $version
+	$xml.Save($file)
 }
 
 function Run-Test ($project) {
