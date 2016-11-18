@@ -4,18 +4,13 @@ properties {
     # Project
     $config = Get-Value-Or-Default $env:CONFIGURATION "Release"
     $buildNumber = Get-Value-Or-Default $env:BUILD_NUMBER "1"
-    
-    $commonProjectDir = "src/prayzzz.Common";    
-    $commonProjectFile = "src/prayzzz.Common/prayzzz.Common.csproj";    
+
+    $commonProjectDir = "src/prayzzz.Common" 
+    $commonProjectFile = "src/prayzzz.Common/prayzzz.Common.csproj"
     $outputFolder = "dist/"
 
     # Version
-    if ($config -eq "Debug") {
-        $version = $buildNumber
-    }
-    else {
-        $version = "1.0.0-ci-$buildNumber"
-    }
+    $version = "1.0.0-ci-$buildNumber"
 
     # Teamcity
     $isTeamcity = $env:TEAMCITY_VERSION
