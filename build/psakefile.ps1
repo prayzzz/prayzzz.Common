@@ -50,7 +50,7 @@ task Dotnet-Restore {
 }
 
 task Set-Version {
-    Apply-Version $commonProjectFile
+    Set-Version $commonProjectFile
 }
 
 task Dotnet-Build -depends Dotnet-Restore, Set-Version {
@@ -61,17 +61,17 @@ task Dotnet-Test -depends Dotnet-Build {
 }
 
 task Dotnet-Pack -depends Dotnet-Test {
-    Pack-Project $commonProjectFile
+    Start-Pack $commonProjectFile
 }
 
-function Pack-Project($projectFile){
+function Start-Pack($projectFile){
     exec { dotnet pack $projectFile --configuration $config --no-build --output ../../$outputFolder }
 
 #    $file = $outputFolder + "$project.$version.nupkg"
 #    exec { nuget push $file $env:NUGET_APIKEY -Source https://www.nuget.org/api/v2/package }
 }
 
-function Apply-Version ($file) {        
+function Set-Version ($file) {        
     $xml = NEW-OBJECT XML
 
     Use-Object ($reader = [System.IO.StreamReader] $file)    {
@@ -85,7 +85,7 @@ function Apply-Version ($file) {
     }
 }
 
-function Run-Test ($project) {
+function Start-Test ($project) {
     if ($isTeamCity) {
         TeamCity-TestSuiteStarted $project
     }

@@ -1,9 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
     <AssemblyName>prayzzz.Common</AssemblyName>
-    <Version>1.0.0-ci-0</Version>
+    <Version>1.0.0-ci-1</Version>
     <PackageTags>common;core;mvc</PackageTags>
     <PackageLicenseUrl>https://github.com/prayzzz/prayzzz.Common/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
