@@ -54,11 +54,10 @@ task Set-Version {
 }
 
 task Dotnet-Build -depends Dotnet-Restore, Set-Version {
-    exec { dotnet build $commonProjectFile --configuration $config }
+    exec { dotnet build --configuration $config }
 }
 
 task Dotnet-Test -depends Dotnet-Build {
-    #Run-Test "prayzzz.Common.Test"
 }
 
 task Dotnet-Pack -depends Dotnet-Test {
@@ -75,13 +74,13 @@ function Pack-Project($projectFile){
 function Apply-Version ($file) {        
     $xml = NEW-OBJECT XML
 
-    Using-Object ($reader = [System.IO.StreamReader] $file)    {
+    Use-Object ($reader = [System.IO.StreamReader] $file)    {
         $xml.Load($reader)    
     }
 
     $xml.Project.PropertyGroup[0].Version = $version
 
-    Using-Object ($writer = [System.IO.StreamWriter] $file) {
+    Use-Object ($writer = [System.IO.StreamWriter] $file) {
         $xml.Save($writer)
     }
 }
@@ -106,7 +105,7 @@ function Get-Value-Or-Default($value, $default) {
     return $value;
 }
 
-function Using-Object
+function Use-Object
 {
     [CmdletBinding()]
     param (
