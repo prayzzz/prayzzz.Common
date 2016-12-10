@@ -5,11 +5,6 @@ VisualStudioVersion = 15.0.25928.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{052C14C7-7C86-4570-A018-3D8465A53125}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F9AA8942-C2E7-45E6-94E2-C3FED5CE02EB}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{329F7693-C8A1-4649-9117-1F90F7B1B56A}"
 	ProjectSection(SolutionItems) = preProject
 		build\psakefile.ps1 = build\psakefile.ps1
