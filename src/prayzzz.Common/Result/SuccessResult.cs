@@ -11,6 +11,16 @@
 
     public class SuccessResult : Result
     {
+        /// <summary>
+        /// Default instance of <see cref="SuccessResult"/> to reduce instantiations.
+        /// </summary>
+        public static SuccessResult Default;
+
+        static SuccessResult()
+        {
+            Default = new SuccessResult();
+        }
+
         public SuccessResult()
         {
             IsSuccess = true;
