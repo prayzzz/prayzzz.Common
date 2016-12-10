@@ -7,10 +7,13 @@ properties {
 
     $commonProjectDir = "src/prayzzz.Common" 
     $commonProjectFile = "src/prayzzz.Common/prayzzz.Common.csproj"
+    $mvcProjectDir = "src/prayzzz.Common.Mvc" 
+    $mvcProjectFile = "src/prayzzz.Common.Mvc/prayzzz.Common.Mvc.csproj"
     $outputFolder = "dist/"
 
     # Version
     $version = "1.0.0-ci-$buildNumber"
+	$gitCommit = (git rev-parse HEAD) | Out-String
 
     # Teamcity
     $isTeamcity = $env:TEAMCITY_VERSION
@@ -19,8 +22,11 @@ properties {
     # Change to root directory
     Set-Location "../"
 
+
+
     Write-Host "Configuration: $config"
     Write-Host "Version: $version"
+	Write-Host "Commit: $gitCommit"
 }
 
 FormatTaskName {
@@ -51,6 +57,7 @@ task Dotnet-Restore {
 
 task Set-Version {
     Set-Version $commonProjectFile
+    Set-Version $mvcProjectFile
 }
 
 task Dotnet-Build -depends Dotnet-Restore, Set-Version {
@@ -62,23 +69,25 @@ task Dotnet-Test -depends Dotnet-Build {
 
 task Dotnet-Pack -depends Dotnet-Test {
     Start-Pack $commonProjectFile
+    Start-Pack $mvcProjectFile
 }
 
 function Start-Pack($projectFile){
-    exec { dotnet pack $projectFile --configuration $config --no-build --output ../../$outputFolder }
-
-#    $file = $outputFolder + "$project.$version.nupkg"
-#    exec { nuget push $file $env:NUGET_APIKEY -Source https://www.nuget.org/api/v2/package }
+	Write-Host "Packing project $projectFile"
+    exec { dotnet pack $projectFile --configuration $config --no-build --output ../../$outputFolder --include-source --include-symbols }
 }
 
-function Set-Version ($file) {        
+function Set-Version ($file) { 
+	Write-Host "Setting version $version to $file"
+	       
     $xml = NEW-OBJECT XML
 
     Use-Object ($reader = [System.IO.StreamReader] $file)    {
         $xml.Load($reader)    
     }
 
-    $xml.Project.PropertyGroup[0].Version = $version
+	Write-Host $xml.Project.PropertyGroup
+    $xml.Project.PropertyGroup.Version = $version
 
     Use-Object ($writer = [System.IO.StreamWriter] $file) {
         $xml.Save($writer)
