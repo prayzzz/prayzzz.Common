@@ -42,6 +42,13 @@ namespace prayzzz.Common.Result
             : base(result)
         {
         }
+
+        /// <summary>
+        /// Returns a new instance of <see cref="ErrorResult{TData}"/>
+        /// with ErrorType = <see cref="ErrorType.Unauthorized"/> 
+        /// and ErrorMessage = "Unauthorized"
+        /// </summary>
+        public static ErrorResult<TData> Unauthorized => new ErrorResult<TData>(ErrorType.Unauthorized, "Unauthorized");
     }
 
     public class ErrorResult : Result
@@ -75,7 +82,7 @@ namespace prayzzz.Common.Result
             IsSuccess = false;
             ErrorType = ErrorType.ValidationError;
         }
-
+        
         /// <summary>
         ///     Creates a new <see cref="ErrorResult" /> with the data from the given result
         /// </summary>
@@ -83,5 +90,12 @@ namespace prayzzz.Common.Result
             : base(result)
         {
         }
+
+        /// <summary>
+        /// Returns a static instance of <see cref="ErrorResult"/> 
+        /// with ErrorType = <see cref="ErrorType.Unauthorized"/> 
+        /// and ErrorMessage = "Unauthorized"
+        /// </summary>
+        public static ErrorResult Unauthorized { get; } = new ErrorResult(ErrorType.Unauthorized, "Unauthorized");
     }
 }

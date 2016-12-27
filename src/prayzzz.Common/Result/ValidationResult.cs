@@ -19,16 +19,16 @@ namespace prayzzz.Common.Result
             _messages.Add(message);
         }
 
-        public override string ToString()
-        {
-            return string.Join("\r\n", _messages);
-        }
-
         public ValidationResult Merge(ValidationResult other)
         {
             _messages.AddRange(other._messages);
 
             return this;
+        }
+
+        public override string ToString()
+        {
+            return string.Join("\r\n", _messages);
         }
     }
 }

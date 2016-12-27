@@ -13,6 +13,17 @@ namespace prayzzz.Common.Mapping
 
         public IMapper Mapper { get; set; }
 
+        public TParam GetParam<TParam>(string key) where TParam : class
+        {
+            object value;
+            if (_parameters.TryGetValue(key, out value))
+            {
+                return value as TParam;
+            }
+
+            throw new InvalidContextException($"Requested parameter with name '{key}' missing.");
+        }
+
         public MappingContext PutParam(string key, object value)
         {
             if (_parameters.ContainsKey(key))
@@ -23,17 +34,6 @@ namespace prayzzz.Common.Mapping
             _parameters.Add(key, value);
 
             return this;
-        }
-
-        public TParam GetParam<TParam>(string key) where TParam : class
-        {
-            object value;
-            if (_parameters.TryGetValue(key, out value))
-            {
-                return value as TParam;
-            }
-
-            throw new InvalidContextException($"Requested parameter with name '{key}' missing.");
         }
     }
 }
