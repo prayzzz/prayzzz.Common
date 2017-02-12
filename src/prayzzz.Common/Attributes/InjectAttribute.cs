@@ -29,5 +29,7 @@ namespace prayzzz.Common.Attributes
         public DependencyLifetime Lifetime { get; }
 
         public Type[] ServiceTypes { get; }
+
+        public bool AutoActivate { get; set; }
     }
 }
