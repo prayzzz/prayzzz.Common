@@ -30,6 +30,6 @@ namespace prayzzz.Common.Attributes
 
         public Type[] ServiceTypes { get; }
 
-        public bool AutoActivate { get; set; }
+        public bool AutoActivate { get; set; } = false;
     }
 }
