@@ -4,28 +4,28 @@ namespace prayzzz.Common.Result
 {
     public class ErrorResult<TData> : Result<TData>
     {
-        public ErrorResult(string errorMessage, params object[] errorMessageArgs)
-            : base(errorMessage)
+        public ErrorResult(string message, params object[] messageArgs)
+            : base(message)
         {
             IsSuccess = false;
-            ErrorMessage = errorMessage;
-            ErrorMessageArgs = errorMessageArgs;
+            Message = message;
+            MessageArgs = messageArgs;
         }
 
-        public ErrorResult(ErrorType errorType, string errorMessage, params object[] errorMessageArgs)
-            : base(errorMessage)
+        public ErrorResult(ErrorType errorType, string message, params object[] messageArgs)
+            : base(message)
         {
             IsSuccess = false;
             ErrorType = errorType;
-            ErrorMessageArgs = errorMessageArgs;
+            MessageArgs = messageArgs;
         }
 
-        public ErrorResult(Exception exception, string errorMessage, params object[] errorMessageArgs)
-            : base(errorMessage)
+        public ErrorResult(Exception exception, string message, params object[] messageArgs)
+            : base(message)
         {
             IsSuccess = false;
             Exception = exception;
-            ErrorMessageArgs = errorMessageArgs;
+            MessageArgs = messageArgs;
         }
 
         public ErrorResult(ValidationResult result)
@@ -42,38 +42,31 @@ namespace prayzzz.Common.Result
             : base(result)
         {
         }
-
-        /// <summary>
-        /// Returns a new instance of <see cref="ErrorResult{TData}"/>
-        /// with ErrorType = <see cref="ErrorType.Unauthorized"/> 
-        /// and ErrorMessage = "Unauthorized"
-        /// </summary>
-        public static ErrorResult<TData> Unauthorized => new ErrorResult<TData>(ErrorType.Unauthorized, "Unauthorized");
     }
 
     public class ErrorResult : Result
     {
-        public ErrorResult(string errorMessage, params object[] errorMessageArgs)
-            : base(errorMessage)
+        public ErrorResult(string message, params object[] messageArgs)
+            : base(message)
         {
             IsSuccess = false;
-            ErrorMessageArgs = errorMessageArgs;
+            MessageArgs = messageArgs;
         }
 
-        public ErrorResult(ErrorType errorType, string errorMessage, params object[] errorMessageArgs)
-            : base(errorMessage)
+        public ErrorResult(ErrorType errorType, string message, params object[] messageArgs)
+            : base(message)
         {
             IsSuccess = false;
             ErrorType = errorType;
-            ErrorMessageArgs = errorMessageArgs;
+            MessageArgs = messageArgs;
         }
 
-        public ErrorResult(Exception exception, string errorMessage, params object[] errorMessageArgs)
-            : base(errorMessage)
+        public ErrorResult(Exception exception, string message, params object[] messageArgs)
+            : base(message)
         {
             IsSuccess = false;
             Exception = exception;
-            ErrorMessageArgs = errorMessageArgs;
+            MessageArgs = messageArgs;
         }
 
         public ErrorResult(ValidationResult result)
@@ -90,12 +83,5 @@ namespace prayzzz.Common.Result
             : base(result)
         {
         }
-
-        /// <summary>
-        /// Returns a static instance of <see cref="ErrorResult"/> 
-        /// with ErrorType = <see cref="ErrorType.Unauthorized"/> 
-        /// and ErrorMessage = "Unauthorized"
-        /// </summary>
-        public static ErrorResult Unauthorized { get; } = new ErrorResult(ErrorType.Unauthorized, "Unauthorized");
     }
 }

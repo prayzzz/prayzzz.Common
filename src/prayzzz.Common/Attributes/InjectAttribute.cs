@@ -16,12 +16,14 @@ namespace prayzzz.Common.Attributes
         /// <param name="serviceTypes"></param>
         public InjectAttribute(params Type[] serviceTypes)
         {
+            AutoActivate = false;
             Lifetime = DependencyLifetime.Scoped;
             ServiceTypes = serviceTypes;
         }
 
         public InjectAttribute(DependencyLifetime lifetime, params Type[] serviceTypes)
         {
+            AutoActivate = false;
             Lifetime = lifetime;
             ServiceTypes = serviceTypes;
         }
@@ -30,6 +32,6 @@ namespace prayzzz.Common.Attributes
 
         public Type[] ServiceTypes { get; }
 
-        public bool AutoActivate { get; set; } = false;
+        public bool AutoActivate { get; set; }
     }
 }

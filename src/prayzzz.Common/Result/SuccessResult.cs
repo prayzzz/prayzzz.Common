@@ -7,6 +7,13 @@
         {
             IsSuccess = true;
         }
+
+        public SuccessResult(string message, params object[] messageArgs)
+            : base(message)
+        {
+            IsSuccess = true;
+            MessageArgs = messageArgs;
+        }
     }
 
     public class SuccessResult : Result
@@ -24,6 +31,13 @@
         public SuccessResult()
         {
             IsSuccess = true;
+        }
+
+        public SuccessResult(string message, params object[] messageArgs)
+            : base(message)
+        {
+            IsSuccess = true;
+            MessageArgs = messageArgs;
         }
     }
 }

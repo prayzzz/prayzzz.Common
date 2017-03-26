@@ -6,9 +6,9 @@ namespace prayzzz.Common.Result
     {
         TData Data { get; }
 
-        string ErrorMessage { get; }
+        string Message { get; }
 
-        object[] ErrorMessageArgs { get; }
+        object[] MessageArgs { get; }
 
         ErrorType ErrorType { get; }
 
@@ -22,9 +22,9 @@ namespace prayzzz.Common.Result
         /// <summary>
         ///     Creates a result with an error message.
         /// </summary>
-        /// <param name="errorMessage">Unlocalized error message</param>
-        protected Result(string errorMessage)
-            : base(errorMessage)
+        /// <param name="message">Unlocalized error message</param>
+        protected Result(string message)
+            : base(message)
         {
         }
 
@@ -58,10 +58,10 @@ namespace prayzzz.Common.Result
         /// <summary>
         ///     Creates a result with an error message.
         /// </summary>
-        /// <param name="errorMessage">Unlocalized error message</param>
-        protected Result(string errorMessage)
+        /// <param name="message">Unlocalized error message</param>
+        protected Result(string message)
         {
-            ErrorMessage = errorMessage;
+            Message = message;
         }
 
         /// <summary>
@@ -71,13 +71,13 @@ namespace prayzzz.Common.Result
         {
             IsSuccess = result.IsSuccess;
             ErrorType = result.ErrorType;
-            ErrorMessage = result.ErrorMessage;
-            ErrorMessageArgs = result.ErrorMessageArgs;
+            Message = result.Message;
+            MessageArgs = result.MessageArgs;
         }
 
-        public string ErrorMessage { get; protected set; }
+        public string Message { get; protected set; }
 
-        public object[] ErrorMessageArgs { get; protected set; }
+        public object[] MessageArgs { get; protected set; }
 
         public ErrorType ErrorType { get; protected set; }
 
