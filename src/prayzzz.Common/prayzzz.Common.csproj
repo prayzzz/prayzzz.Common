@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
     <AssemblyName>prayzzz.Common</AssemblyName>
-    <Version>1.0.0-ci-1</Version>
+    <Version>1.0.0-ci-$(VersionSuffix)</Version>
     <PackageTags>common;core;</PackageTags>
     <PackageLicenseUrl>https://github.com/prayzzz/prayzzz.Common/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
