@@ -43,7 +43,9 @@ namespace prayzzz.Common.Result
 
         public Exception Exception { get; protected set; }
 
-        public bool IsSuccess => ErrorType != ErrorType.None;
+        public bool IsSuccess => ErrorType == ErrorType.None;
+
+        public bool IsError => ErrorType != ErrorType.None;
 
         public string Message { get; protected set; }
 
