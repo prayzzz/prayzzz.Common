@@ -2,16 +2,24 @@
 {
     public class SuccessResult<TData> : Result<TData>
     {
-        public SuccessResult(TData data) :
-            base(data)
+        public SuccessResult(TData data)
         {
-            IsSuccess = true;
+            ErrorType = ErrorType.None;
+            Data = data;
         }
 
         public SuccessResult(string message, params object[] messageArgs)
-            : base(message)
         {
-            IsSuccess = true;
+            ErrorType = ErrorType.None;
+            Message = message;
+            MessageArgs = messageArgs;
+        }
+
+        public SuccessResult(TData data, string message, params object[] messageArgs)
+        {
+            Data = data;
+            ErrorType = ErrorType.None;
+            Message = message;
             MessageArgs = messageArgs;
         }
     }
@@ -19,7 +27,7 @@
     public class SuccessResult : Result
     {
         /// <summary>
-        /// Default instance of <see cref="SuccessResult"/> to reduce instantiations.
+        ///     Default instance of <see cref="SuccessResult" />.
         /// </summary>
         public static SuccessResult Default;
 
@@ -30,13 +38,13 @@
 
         public SuccessResult()
         {
-            IsSuccess = true;
+            ErrorType = ErrorType.None;
         }
 
         public SuccessResult(string message, params object[] messageArgs)
-            : base(message)
         {
-            IsSuccess = true;
+            ErrorType = ErrorType.None;
+            Message = message;
             MessageArgs = messageArgs;
         }
     }

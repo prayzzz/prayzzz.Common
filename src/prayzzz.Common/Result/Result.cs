@@ -2,45 +2,15 @@
 
 namespace prayzzz.Common.Result
 {
-    public interface IResult<out TData>
+    public abstract class Result<TData> : Result
     {
-        TData Data { get; }
-
-        string Message { get; }
-
-        object[] MessageArgs { get; }
-
-        ErrorType ErrorType { get; }
-
-        Exception Exception { get; }
-
-        bool IsSuccess { get; }
-    }
-
-    public abstract class Result<TData> : Result, IResult<TData>
-    {
-        /// <summary>
-        ///     Creates a result with an error message.
-        /// </summary>
-        /// <param name="message">Unlocalized error message</param>
-        protected Result(string message)
-            : base(message)
+        protected Result()
         {
         }
 
         /// <summary>
-        ///     Creates a result with the given data.
+        ///     Creates a result from the given result
         /// </summary>
-        /// <param name="data"></param>
-        protected Result(TData data)
-        {
-            Data = data;
-        }
-
-        /// <summary>
-        ///     Creates a new result with the data from the given result
-        /// </summary>
-        /// <param name="result"></param>
         protected Result(Result result)
             : base(result)
         {
@@ -53,36 +23,35 @@ namespace prayzzz.Common.Result
     {
         protected Result()
         {
+            ErrorType = ErrorType.None;
+            Message = string.Empty;
+            MessageArgs = Array.Empty<object>();
         }
 
         /// <summary>
-        ///     Creates a result with an error message.
-        /// </summary>
-        /// <param name="message">Unlocalized error message</param>
-        protected Result(string message)
-        {
-            Message = message;
-        }
-
-        /// <summary>
-        ///     Creates a new result with the data from the given result
+        ///     Creates a result from the given result
         /// </summary>
         protected Result(Result result)
+            : this()
         {
-            IsSuccess = result.IsSuccess;
             ErrorType = result.ErrorType;
             Message = result.Message;
             MessageArgs = result.MessageArgs;
         }
 
-        public string Message { get; protected set; }
-
-        public object[] MessageArgs { get; protected set; }
-
         public ErrorType ErrorType { get; protected set; }
 
         public Exception Exception { get; protected set; }
 
-        public bool IsSuccess { get; protected set; }
+        public bool IsSuccess => ErrorType != ErrorType.None;
+
+        public string Message { get; protected set; }
+
+        public object[] MessageArgs { get; protected set; }
+
+        public override string ToString()
+        {
+            return string.Format(Message, MessageArgs);
+        }
     }
 }

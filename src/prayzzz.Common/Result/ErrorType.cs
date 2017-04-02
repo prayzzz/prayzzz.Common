@@ -2,10 +2,10 @@
 {
     public enum ErrorType
     {
+        None,
         Unknown,
         NotFound,
         InternalError,
-        SqlError,
         ValidationError,
         Unauthorized
     }
