@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace prayzzz.Common.Result
+namespace prayzzz.Common.Results
 {
     public class ErrorResult<TData> : Result<TData>
     {

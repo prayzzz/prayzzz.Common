@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace prayzzz.Common.Result
+namespace prayzzz.Common.Results
 {
     public class ValidationResult
     {

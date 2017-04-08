@@ -1,4 +1,4 @@
-﻿namespace prayzzz.Common.Result
+﻿namespace prayzzz.Common.Results
 {
     public enum ErrorType
     {

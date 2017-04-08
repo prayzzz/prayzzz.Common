@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace prayzzz.Common.Result
+namespace prayzzz.Common.Results
 {
     public abstract class Result<TData> : Result
     {
@@ -51,9 +51,9 @@ namespace prayzzz.Common.Result
 
         public object[] MessageArgs { get; protected set; }
 
-        public override string ToString()
-        {
-            return string.Format(Message, MessageArgs);
-        }
+        //public override string ToString()
+        //{
+        //    return string.Format(Message, MessageArgs);
+        //}
     }
 }
