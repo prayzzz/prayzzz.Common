@@ -29,11 +29,11 @@
         /// <summary>
         ///     Default instance of <see cref="SuccessResult" />.
         /// </summary>
-        //public static SuccessResult Default;
+        public static SuccessResult Default;
 
         static SuccessResult()
         {
-            //Default = new SuccessResult();
+            Default = new SuccessResult();
         }
 
         public SuccessResult()

@@ -55,6 +55,25 @@ namespace prayzzz.Common.Test.Json
         }
 
         [TestMethod]
+        public void ReadSimpleSuccessResultAsAbstractResult()
+        {
+            var resultConverter = new ResultConverter();
+            var settings = new JsonSerializerSettings();
+            settings.Converters.Add(resultConverter);
+
+            var json = "{\"ErrorType\":0,\"Exception\":null,\"IsSuccess\":true,\"IsError\":false,\"Message\":\"\",\"MessageArgs\":[]}";
+            var result = JsonConvert.DeserializeObject<Result>(json, settings);
+
+            Assert.IsInstanceOfType(result, typeof(SuccessResult));
+            Assert.AreEqual(ErrorType.None, result.ErrorType);
+            Assert.IsNull(result.Exception);
+            Assert.IsTrue(result.IsSuccess);
+            Assert.IsFalse(result.IsError);
+            Assert.AreEqual("", result.Message);
+            Assert.AreEqual(0, result.MessageArgs.Length);
+        }
+
+        [TestMethod]
         public void WriteSimpleErrorResultWithMessage()
         {
             var resultConverter = new ResultConverter();
