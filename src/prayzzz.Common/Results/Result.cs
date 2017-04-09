@@ -66,7 +66,7 @@ namespace prayzzz.Common.Results
 
         public object[] MessageArgs { get; protected set; }
 
-        public override string ToString()
+        public string ToMessageString()
         {
             return string.Format(Message, MessageArgs);
         }
