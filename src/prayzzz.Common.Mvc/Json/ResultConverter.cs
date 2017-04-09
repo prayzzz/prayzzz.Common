@@ -16,6 +16,8 @@ namespace prayzzz.Common.Mvc.Json
             ResultType = typeof(Result);
         }
 
+        public override bool CanWrite => false;
+
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             throw new NotImplementedException();
@@ -28,12 +30,12 @@ namespace prayzzz.Common.Mvc.Json
                 throw new JsonSerializationException("Cannot deserialize data results");
             }
 
-            var jsonObject = (JObject)serializer.Deserialize(reader);
+            var jsonObject = (JObject) serializer.Deserialize(reader);
 
             var isSuccess = jsonObject.GetValue(nameof(Result.IsSuccess), StringComparison.OrdinalIgnoreCase).Value<bool>();
             var message = jsonObject.GetValue(nameof(Result.Message), StringComparison.OrdinalIgnoreCase).Value<string>();
             var messageArgs = jsonObject.GetValue(nameof(Result.MessageArgs), StringComparison.OrdinalIgnoreCase).Values<string>().ToArray<object>();
-            var errorType = (ErrorType)jsonObject.GetValue(nameof(Result.ErrorType), StringComparison.OrdinalIgnoreCase).Value<int>();
+            var errorType = (ErrorType) jsonObject.GetValue(nameof(Result.ErrorType), StringComparison.OrdinalIgnoreCase).Value<int>();
             var exception = jsonObject.GetValue(nameof(Result.Exception), StringComparison.OrdinalIgnoreCase).ToObject<Exception>();
 
             if (!isSuccess)
@@ -48,8 +50,6 @@ namespace prayzzz.Common.Mvc.Json
 
             return new SuccessResult(message, messageArgs);
         }
-
-        public override bool CanWrite => false;
 
         public override bool CanConvert(Type objectType)
         {

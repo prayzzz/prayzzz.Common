@@ -2,7 +2,24 @@
 
 namespace prayzzz.Common.Results
 {
-    public abstract class Result<TData> : Result
+    public interface IResult<out TData>
+    {
+        TData Data { get; }
+
+        ErrorType ErrorType { get; }
+
+        Exception Exception { get; }
+
+        bool IsError { get; }
+
+        bool IsSuccess { get; }
+
+        string Message { get; }
+
+        object[] MessageArgs { get; }
+    }
+
+    public abstract class Result<TData> : Result, IResult<TData>
     {
         protected Result()
         {
@@ -11,8 +28,7 @@ namespace prayzzz.Common.Results
         /// <summary>
         ///     Creates a result from the given result
         /// </summary>
-        protected Result(Result result)
-            : base(result)
+        protected Result(Result result) : base(result)
         {
         }
 
@@ -31,8 +47,7 @@ namespace prayzzz.Common.Results
         /// <summary>
         ///     Creates a result from the given result
         /// </summary>
-        protected Result(Result result)
-            : this()
+        protected Result(Result result) : this()
         {
             ErrorType = result.ErrorType;
             Message = result.Message;
@@ -43,17 +58,17 @@ namespace prayzzz.Common.Results
 
         public Exception Exception { get; protected set; }
 
-        public bool IsSuccess => ErrorType == ErrorType.None;
-
         public bool IsError => ErrorType != ErrorType.None;
+
+        public bool IsSuccess => ErrorType == ErrorType.None;
 
         public string Message { get; protected set; }
 
         public object[] MessageArgs { get; protected set; }
 
-        //public override string ToString()
-        //{
-        //    return string.Format(Message, MessageArgs);
-        //}
+        public override string ToString()
+        {
+            return string.Format(Message, MessageArgs);
+        }
     }
 }

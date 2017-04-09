@@ -74,8 +74,7 @@ namespace prayzzz.Common.Results
         /// <summary>
         ///     Creates a new <see cref="ErrorResult" /> from the given result
         /// </summary>
-        public ErrorResult(Result result)
-            : base(result)
+        public ErrorResult(Result result) : base(result)
         {
         }
     }
