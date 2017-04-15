@@ -32,12 +32,17 @@ namespace prayzzz.Common.Results
             Message = result.ToString();
         }
 
-        /// <summary>
-        ///     Creates a new <see cref="ErrorResult" /> from the given result
-        /// </summary>
-        public ErrorResult(Result result)
-            : base(result)
+        public ErrorResult(Result result) : base(result)
         {
+            if (result.ErrorType == ErrorType.None)
+            {
+                ErrorType = ErrorType.Unknown;
+            }
+        }
+
+        public ErrorResult(ErrorType errorType, Result result) : base(result)
+        {
+            ErrorType = errorType;
         }
     }
 
@@ -71,11 +76,17 @@ namespace prayzzz.Common.Results
             Message = result.ToString();
         }
 
-        /// <summary>
-        ///     Creates a new <see cref="ErrorResult" /> from the given result
-        /// </summary>
         public ErrorResult(Result result) : base(result)
         {
+            if (result.ErrorType == ErrorType.None)
+            {
+                ErrorType = ErrorType.Unknown;
+            }
+        }
+
+        public ErrorResult(ErrorType errorType, Result result) : base(result)
+        {
+            ErrorType = errorType;
         }
     }
 }
