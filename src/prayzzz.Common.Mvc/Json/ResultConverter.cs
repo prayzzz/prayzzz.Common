@@ -36,10 +36,11 @@ namespace prayzzz.Common.Mvc.Json
             var message = jsonObject.GetValue(nameof(Result.Message), StringComparison.OrdinalIgnoreCase).Value<string>();
             var messageArgs = jsonObject.GetValue(nameof(Result.MessageArgs), StringComparison.OrdinalIgnoreCase).Values<string>().ToArray<object>();
             var errorType = (ErrorType) jsonObject.GetValue(nameof(Result.ErrorType), StringComparison.OrdinalIgnoreCase).Value<int>();
-            var exception = jsonObject.GetValue(nameof(Result.Exception), StringComparison.OrdinalIgnoreCase).ToObject<Exception>();
 
             if (!isSuccess)
             {
+                var exception = jsonObject.GetValue(nameof(Result.Exception), StringComparison.OrdinalIgnoreCase).ToObject<Exception>();
+
                 if (exception != null)
                 {
                     return new ErrorResult(exception, message, messageArgs);

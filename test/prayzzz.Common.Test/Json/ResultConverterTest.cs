@@ -33,7 +33,7 @@ namespace prayzzz.Common.Test.Json
 
             var json = JsonConvert.SerializeObject(successResult, settings);
 
-            Assert.AreEqual("{\"ErrorType\":0,\"Exception\":null,\"IsSuccess\":true,\"IsError\":false,\"Message\":\"\",\"MessageArgs\":[]}", json);
+            Assert.AreEqual("{\"ErrorType\":0,\"Exception\":null,\"IsError\":false,\"IsSuccess\":true,\"Message\":\"\",\"MessageArgs\":[]}", json);
         }
 
         [TestMethod]
@@ -84,7 +84,7 @@ namespace prayzzz.Common.Test.Json
 
             var json = JsonConvert.SerializeObject(successResult, settings);
 
-            Assert.AreEqual("{\"ErrorType\":4,\"Exception\":null,\"IsSuccess\":false,\"IsError\":true,\"Message\":\"My Message\",\"MessageArgs\":[\"My Argument\"]}", json);
+            Assert.AreEqual("{\"ErrorType\":4,\"Exception\":null,\"IsError\":true,\"IsSuccess\":false,\"Message\":\"My Message\",\"MessageArgs\":[\"My Argument\"]}", json);
         }
 
         [TestMethod]
@@ -116,7 +116,7 @@ namespace prayzzz.Common.Test.Json
 
             var json = JsonConvert.SerializeObject(successResult, settings);
 
-            Assert.AreEqual("{\"ErrorType\":0,\"Exception\":null,\"IsSuccess\":true,\"IsError\":false,\"Message\":\"My Message\",\"MessageArgs\":[\"My Argument\"]}", json);
+            Assert.AreEqual("{\"ErrorType\":0,\"Exception\":null,\"IsError\":false,\"IsSuccess\":true,\"Message\":\"My Message\",\"MessageArgs\":[\"My Argument\"]}", json);
         }
 
         [TestMethod]
@@ -148,7 +148,7 @@ namespace prayzzz.Common.Test.Json
 
             var json = JsonConvert.SerializeObject(successResult, settings);
 
-            Assert.AreEqual("{\"ErrorType\":3,\"Exception\":{\"Message\":\"The method or operation is not implemented.\",\"Data\":{},\"InnerException\":null,\"TargetSite\":null,\"StackTrace\":null,\"HelpLink\":null,\"Source\":null,\"HResult\":-2147467263},\"IsSuccess\":false,\"IsError\":true,\"Message\":\"My Message\",\"MessageArgs\":[\"My Argument\"]}", json);
+            Assert.AreEqual("{\"ErrorType\":3,\"Exception\":{\"Message\":\"The method or operation is not implemented.\",\"Data\":{},\"InnerException\":null,\"TargetSite\":null,\"StackTrace\":null,\"HelpLink\":null,\"Source\":null,\"HResult\":-2147467263},\"IsError\":true,\"IsSuccess\":false,\"Message\":\"My Message\",\"MessageArgs\":[\"My Argument\"]}", json);
         }
 
         [TestMethod]
@@ -158,7 +158,7 @@ namespace prayzzz.Common.Test.Json
             var settings = new JsonSerializerSettings();
             settings.Converters.Add(resultConverter);
 
-            var json = "{\"ErrorType\":3,\"Exception\":{\"Message\":\"The method or operation is not implemented.\",\"Data\":{},\"InnerException\":null,\"TargetSite\":null,\"StackTrace\":null,\"HelpLink\":null,\"Source\":null,\"HResult\":-2147467263},\"IsSuccess\":false,\"IsError\":true,\"Message\":\"My Message\",\"MessageArgs\":[\"My Argument\"]}";
+            var json = "{\"ErrorType\":3,\"Exception\":{\"Message\":\"The method or operation is not implemented.\",\"Data\":{},\"InnerException\":null,\"TargetSite\":null,\"StackTrace\":null,\"HelpLink\":null,\"Source\":null,\"HResult\":-2147467263},\"IsError\":true,\"IsSuccess\":false,\"Message\":\"My Message\",\"MessageArgs\":[\"My Argument\"]}";
             var successResult = JsonConvert.DeserializeObject<ErrorResult>(json, settings);
 
             Assert.AreEqual(ErrorType.InternalError, successResult.ErrorType);
@@ -167,6 +167,23 @@ namespace prayzzz.Common.Test.Json
             Assert.IsTrue(successResult.IsError);
             Assert.AreEqual("My Message", successResult.Message);
             Assert.IsTrue(successResult.MessageArgs.Contains("My Argument"));
+        }
+
+        [TestMethod]
+        public void ReadSuccessResult()
+        {
+            var resultConverter = new ResultConverter();
+            var settings = new JsonSerializerSettings();
+            settings.Converters.Add(resultConverter);
+
+            var json = "{\"errorType\":0,\"isError\":false,\"isSuccess\":true,\"message\":\"My Message\",\"messageArgs\":[]}";
+            var successResult = JsonConvert.DeserializeObject<Result>(json, settings);
+
+            Assert.AreEqual(ErrorType.None, successResult.ErrorType);
+            Assert.IsNull(successResult.Exception);
+            Assert.IsTrue(successResult.IsSuccess);
+            Assert.IsFalse(successResult.IsError);
+            Assert.AreEqual("My Message", successResult.Message);
         }
     }
 }
