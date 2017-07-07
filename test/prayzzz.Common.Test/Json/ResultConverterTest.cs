@@ -170,6 +170,24 @@ namespace prayzzz.Common.Test.Json
         }
 
         [TestMethod]
+        public void ReadErrorResultWithoutException()
+        {
+            var resultConverter = new ResultConverter();
+            var settings = new JsonSerializerSettings();
+            settings.Converters.Add(resultConverter);
+
+            var json = "{\"errorType\":3,\"isError\":true,\"isSuccess\":false,\"message\":\"My Message\",\"messageArgs\":[]}\r\n";
+            var result = JsonConvert.DeserializeObject<ErrorResult>(json, settings);
+
+            Assert.AreEqual(ErrorType.InternalError, result.ErrorType);
+            Assert.IsNull(result.Exception);
+            Assert.IsFalse(result.IsSuccess);
+            Assert.IsTrue(result.IsError);
+            Assert.AreEqual("My Message", result.Message);
+            Assert.IsTrue(result.MessageArgs.Contains("My Argument"));
+        }
+
+        [TestMethod]
         public void ReadSuccessResult()
         {
             var resultConverter = new ResultConverter();

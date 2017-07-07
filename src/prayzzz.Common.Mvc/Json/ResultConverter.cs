@@ -30,31 +30,45 @@ namespace prayzzz.Common.Mvc.Json
                 throw new JsonSerializationException("Cannot deserialize data results");
             }
 
-            var jsonObject = (JObject) serializer.Deserialize(reader);
+            var jsonObject = (JObject)serializer.Deserialize(reader);
 
-            var isSuccess = jsonObject.GetValue(nameof(Result.IsSuccess), StringComparison.OrdinalIgnoreCase).Value<bool>();
-            var message = jsonObject.GetValue(nameof(Result.Message), StringComparison.OrdinalIgnoreCase).Value<string>();
-            var messageArgs = jsonObject.GetValue(nameof(Result.MessageArgs), StringComparison.OrdinalIgnoreCase).Values<string>().ToArray<object>();
-            var errorType = (ErrorType) jsonObject.GetValue(nameof(Result.ErrorType), StringComparison.OrdinalIgnoreCase).Value<int>();
+            var isSuccess = TryGetValue<bool>(jsonObject, nameof(Result.IsSuccess));
+            var message = TryGetValue<string>(jsonObject, nameof(Result.Message));
+            var errorType = (ErrorType)TryGetValue<int>(jsonObject, nameof(Result.ErrorType));
 
-            if (!isSuccess)
+            var messageArgs = Array.Empty<object>();
+            if (jsonObject.TryGetValue(nameof(Result.MessageArgs), StringComparison.OrdinalIgnoreCase, out var value))
             {
-                var exception = jsonObject.GetValue(nameof(Result.Exception), StringComparison.OrdinalIgnoreCase).ToObject<Exception>();
-
-                if (exception != null)
-                {
-                    return new ErrorResult(exception, message, messageArgs);
-                }
-
-                return new ErrorResult(errorType, message, messageArgs);
+                messageArgs = value.Values<string>().ToArray<object>();
             }
 
-            return new SuccessResult(message, messageArgs);
+            if (isSuccess)
+            {
+                return new SuccessResult(message, messageArgs);
+            }
+
+            var exception = TryGetValue<Exception>(jsonObject, nameof(Result.Exception));
+            if (exception != null)
+            {
+                return new ErrorResult(exception, message, messageArgs);
+            }
+
+            return new ErrorResult(errorType, message, messageArgs);
         }
 
         public override bool CanConvert(Type objectType)
         {
             return ResultType.IsAssignableFrom(objectType);
+        }
+
+        private static T TryGetValue<T>(JObject obj, string name)
+        {
+            if (obj.TryGetValue(name, StringComparison.OrdinalIgnoreCase, out var value))
+            {
+                return value.Value<T>();
+            }
+
+            return default(T);
         }
     }
 }
