@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>prayzzz.Common.Test</AssemblyName>
+    <AssemblyName>prayzzz.Common.Unit</AssemblyName>
     <Version>1.0.0-ci-$(VersionSuffix)</Version>
     <PackageTags>common;core;mvc</PackageTags>
     <PackageLicenseUrl>https://github.com/prayzzz/prayzzz.Common/blob/master/LICENSE</PackageLicenseUrl>

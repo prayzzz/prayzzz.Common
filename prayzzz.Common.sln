@@ -18,7 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C229EDED-2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "prayzzz.Common.Test", "test\prayzzz.Common.Test\prayzzz.Common.Test.csproj", "{4E71F851-4D0D-47CB-A780-7D3C8FC88653}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "prayzzz.Common.Test", "src\prayzzz.Common.Test\prayzzz.Common.Test.csproj", "{50A045B9-222A-4FF9-A6FB-32B8798C7EF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "prayzzz.Common.Unit", "src\prayzzz.Common.Unit\prayzzz.Common.Unit.csproj", "{50A045B9-222A-4FF9-A6FB-32B8798C7EF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
