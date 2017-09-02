@@ -15,7 +15,7 @@ namespace prayzzz.Common
             _logger = logger;
         }
 
-        public async Task<(Result, string)> ReadEmbeddedFileAsync(Assembly assembly, string filePath)
+        public async Task<(Result result, string content)> ReadEmbeddedFileAsync(Assembly assembly, string filePath)
         {
             _logger.LogDebug($"Loading file \"{filePath}\" from \"{assembly.FullName}\"");
 
@@ -30,6 +30,25 @@ namespace prayzzz.Common
                 using (var reader = new StreamReader(stream))
                 {
                     return (new SuccessResult(), await reader.ReadToEndAsync());
+                }
+            }
+        }
+
+        public (Result result, string content) ReadEmbeddedFile(Assembly assembly, string filePath)
+        {
+            _logger.LogDebug($"Loading file \"{filePath}\" from \"{assembly.FullName}\"");
+
+            var name = $"{assembly.GetName().Name}.{filePath}";
+            using (var stream = assembly.GetManifestResourceStream(name))
+            {
+                if (stream == null)
+                {
+                    return (new ErrorResult(new FileNotFoundException(name), "File not found"), string.Empty);
+                }
+
+                using (var reader = new StreamReader(stream))
+                {
+                    return (new SuccessResult(), reader.ReadToEnd());
                 }
             }
         }
