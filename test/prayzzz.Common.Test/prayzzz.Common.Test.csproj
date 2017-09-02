@@ -1,16 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data\*.json" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.1.18" />
     <PackageReference Include="MSTest.TestFramework" Version="1.1.18" />
     <PackageReference Include="Moq" Version="4.7.99" />
   </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\..\src\prayzzz.Common\prayzzz.Common.csproj" />
     <ProjectReference Include="..\..\src\prayzzz.Common.Mvc\prayzzz.Common.Mvc.csproj" />
     <ProjectReference Include="..\..\src\prayzzz.Common.Unit\prayzzz.Common.Unit.csproj" />
   </ItemGroup>
+  
 </Project>

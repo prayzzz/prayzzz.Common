@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 
-namespace prayzzz.Common.Test
+namespace prayzzz.Common.Unit
 {
     public class ConsoleLogger<T> : ConsoleLogger, ILogger<T>
     {

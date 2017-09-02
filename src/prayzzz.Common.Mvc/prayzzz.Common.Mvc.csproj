@@ -11,4 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\prayzzz.Common\prayzzz.Common.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="SourceLink.Create.CommandLine" Version="2.2.1" />
+  </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace prayzzz.Common.Test
+namespace prayzzz.Common.Unit
 {
     public static class TestHelper
     {
