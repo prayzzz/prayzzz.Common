@@ -1,12 +1,15 @@
 <Project>
-    <ItemGroup>
-        <PackageReference Include="SourceLink.Create.CommandLine" Version="2.1.2" PrivateAssets="All" />
-    </ItemGroup>
-    <ItemGroup Label="dotnet pack instructions">
-        <!-- Adjust pack command to include pdb files -->
-        <Content Include="$(OutputPath)$(AssemblyName).pdb">
-            <Pack>true</Pack>
-            <PackagePath>lib/$(TargetFramework)</PackagePath>
-        </Content>
-    </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="SourceLink.Create.CommandLine" Version="2.2.1" PrivateAssets="All"/>
+  </ItemGroup>
+
+  <ItemGroup Label="dotnet pack instructions">
+    <!-- Adjust pack command to include pdb files -->
+    <Content Include="$(OutputPath)$(AssemblyName).pdb">
+      <Pack>true</Pack>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
+    </Content>
+  </ItemGroup>
+
 </Project>

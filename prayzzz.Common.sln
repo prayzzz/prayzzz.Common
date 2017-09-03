@@ -1,13 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.10
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{052C14C7-7C86-4570-A018-3D8465A53125}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{329F7693-C8A1-4649-9117-1F90F7B1B56A}"
 	ProjectSection(SolutionItems) = preProject
-		build\psakefile.ps1 = build\psakefile.ps1
+		build\common.props = build\common.props
+		build\sourcelink.props = build\sourcelink.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "prayzzz.Common", "src\prayzzz.Common\prayzzz.Common.csproj", "{02DC310F-A588-4A80-A082-5742261BADB7}"
@@ -87,5 +88,8 @@ Global
 		{9CDD8178-D695-44A7-B842-AE546450DBC8} = {052C14C7-7C86-4570-A018-3D8465A53125}
 		{4E71F851-4D0D-47CB-A780-7D3C8FC88653} = {C229EDED-269F-4E39-B713-8612F9CDEF95}
 		{50A045B9-222A-4FF9-A6FB-32B8798C7EF2} = {052C14C7-7C86-4570-A018-3D8465A53125}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3519A946-6D15-4697-9982-3D717383DAFD}
 	EndGlobalSection
 EndGlobal
