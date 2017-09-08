@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using prayzzz.Common.Results;
+using System;
 
 namespace prayzzz.Common
 {
@@ -49,6 +50,25 @@ namespace prayzzz.Common
                 using (var reader = new StreamReader(stream))
                 {
                     return (new SuccessResult(), reader.ReadToEnd());
+                }
+            }
+        }
+
+        public (Result result, byte[] content) ReadEmbeddedBinaryFile(Assembly assembly, string filePath)
+        {
+            _logger.LogDebug($"Loading file \"{filePath}\" from \"{assembly.FullName}\"");
+
+            var name = $"{assembly.GetName().Name}.{filePath}";
+            using (var stream = assembly.GetManifestResourceStream(name))
+            {
+                if (stream == null)
+                {
+                    return (new ErrorResult(new FileNotFoundException(name), "File not found"), Array.Empty<byte>());
+                }
+
+                using (var reader = new BinaryReader(stream))
+                {
+                    return (new SuccessResult(), reader.ReadBytes((int)stream.Length));
                 }
             }
         }
