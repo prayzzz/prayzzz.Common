@@ -10,6 +10,9 @@
   
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)' != 'Release' ">
     <PackageReference Include="Roslynator.Analyzers" Version="1.5.0" />
   </ItemGroup>
   
