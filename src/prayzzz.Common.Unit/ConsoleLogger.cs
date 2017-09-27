@@ -1,12 +1,12 @@
-﻿using System;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using System;
 
 namespace prayzzz.Common.Unit
 {
     public class ConsoleLogger<T> : ConsoleLogger, ILogger<T>
     {
     }
-    
+
     public class ConsoleLogger : ILogger
     {
         public IDisposable BeginScope<TState>(TState state)
@@ -30,7 +30,7 @@ namespace prayzzz.Common.Unit
             {
                 Console.WriteLine("Scope started");
             }
-            
+
             public void Dispose()
             {
                 Console.WriteLine("Scope disposed");

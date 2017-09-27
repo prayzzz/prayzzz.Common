@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace prayzzz.Common.Results
 {
@@ -12,7 +11,7 @@ namespace prayzzz.Common.Results
             _messages = new List<string>();
         }
 
-        public bool HasErrors => _messages.Any();
+        public bool HasErrors => _messages.Count > 0;
 
         public void Add(string message)
         {

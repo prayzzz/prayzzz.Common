@@ -1,5 +1,5 @@
-﻿using System;
-using prayzzz.Common.Enums;
+﻿using prayzzz.Common.Enums;
+using System;
 
 namespace prayzzz.Common.Attributes
 {

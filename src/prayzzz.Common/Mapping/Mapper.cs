@@ -29,8 +29,7 @@ namespace prayzzz.Common.Mapping
 
             var tuple = new TypeTuple(sourceType, targetType);
 
-            MappingRule rule;
-            if (!_rules.TryGetValue(tuple, out rule))
+            if (!_rules.TryGetValue(tuple, out var rule))
             {
                 throw new MissingMethodException($"Mapping from {sourceType.FullName} to {targetType.FullName} not configured.");
             }
@@ -63,8 +62,7 @@ namespace prayzzz.Common.Mapping
 
             var tuple = new TypeTuple(sourceType, targetType);
 
-            MappingRule rule;
-            if (!_rules.TryGetValue(tuple, out rule))
+            if (!_rules.TryGetValue(tuple, out var rule))
             {
                 throw new MissingMethodException($"Mapping from {sourceType.FullName} to {targetType.FullName} not configured.");
             }
@@ -98,8 +96,7 @@ namespace prayzzz.Common.Mapping
         {
             var tuple = new TypeTuple(typeof(TSource), typeof(TTarget));
 
-            MappingRule rule;
-            if (!_rules.TryGetValue(tuple, out rule))
+            if (!_rules.TryGetValue(tuple, out var rule))
             {
                 rule = new MappingRule();
                 _rules.Add(tuple, rule);
@@ -112,8 +109,7 @@ namespace prayzzz.Common.Mapping
         {
             var tuple = new TypeTuple(typeof(TSource), typeof(TTarget));
 
-            MappingRule rule;
-            if (!_rules.TryGetValue(tuple, out rule))
+            if (!_rules.TryGetValue(tuple, out var rule))
             {
                 rule = new MappingRule();
                 _rules.Add(tuple, rule);
@@ -141,14 +137,14 @@ namespace prayzzz.Common.Mapping
 
             public RuntimeTypeHandle Target { get; }
 
-            public bool Equals(TypeTuple p)
+            public bool Equals(TypeTuple other)
             {
-                if (p == null)
+                if (other == null)
                 {
                     return false;
                 }
 
-                return Source.Equals(p.Source) && Target.Equals(p.Target);
+                return Source.Equals(other.Source) && Target.Equals(other.Target);
             }
 
             public override bool Equals(object obj)

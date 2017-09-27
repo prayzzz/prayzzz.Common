@@ -1,8 +1,8 @@
-﻿using System;
-using System.Reflection;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
+using System;
+using System.Reflection;
 
 namespace prayzzz.Common.Unit
 {
@@ -21,7 +21,7 @@ namespace prayzzz.Common.Unit
 
             return loggerFactory;
         }
-        
+
         public static Mock<ILoggerFactory> MockLoggerFactory<T>()
         {
             var loggerFactory = Mock<ILoggerFactory>(MockBehavior.Loose);

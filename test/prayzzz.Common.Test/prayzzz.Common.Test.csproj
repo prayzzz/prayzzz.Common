@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\prayzzz.Common.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Data\*.json" />
@@ -12,7 +16,8 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.1.18" />
     <PackageReference Include="MSTest.TestFramework" Version="1.1.18" />
-    <PackageReference Include="Moq" Version="4.7.99" />
+    <PackageReference Include="Moq" Version="4.7.127" />
+    <PackageReference Include="Roslynator.Analyzers" Version="1.5.0" />
   </ItemGroup>
   
   <ItemGroup>

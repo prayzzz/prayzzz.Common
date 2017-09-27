@@ -15,8 +15,7 @@ namespace prayzzz.Common.Mapping
 
         public TParam GetParam<TParam>(string key) where TParam : class
         {
-            object value;
-            if (_parameters.TryGetValue(key, out value))
+            if (_parameters.TryGetValue(key, out var value))
             {
                 return value as TParam;
             }

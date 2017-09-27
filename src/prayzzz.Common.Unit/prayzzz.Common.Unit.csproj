@@ -11,7 +11,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.0" />
-    <PackageReference Include="Moq" Version="4.7.99" />
+    <PackageReference Include="Moq" Version="4.7.127" />
+    <PackageReference Include="Roslynator.Analyzers" Version="1.5.0" />
   </ItemGroup>
   
   <ItemGroup>
