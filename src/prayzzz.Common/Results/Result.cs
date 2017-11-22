@@ -2,10 +2,13 @@
 
 namespace prayzzz.Common.Results
 {
-    public interface IResult<out TData>
+    public interface IResult<out TData> : IResult
     {
         TData Data { get; }
+    }
 
+    public interface IResult
+    {
         ErrorType ErrorType { get; }
 
         Exception Exception { get; }
@@ -21,22 +24,24 @@ namespace prayzzz.Common.Results
 
     public abstract class Result<TData> : Result, IResult<TData>
     {
+        /// <inheritdoc />
         protected Result()
         {
         }
 
-        /// <summary>
-        ///     Creates a result from the given result
-        /// </summary>
-        protected Result(Result result) : base(result)
+        /// <inheritdoc />
+        protected Result(IResult result) : base(result)
         {
         }
 
         public TData Data { get; protected set; }
     }
 
-    public abstract class Result
+    public abstract class Result : IResult
     {
+        /// <summary>
+        ///     Creates a new result with ErrorType.None
+        /// </summary>
         protected Result()
         {
             ErrorType = ErrorType.None;
@@ -45,11 +50,12 @@ namespace prayzzz.Common.Results
         }
 
         /// <summary>
-        ///     Creates a result from the given result
+        ///     Creates a new result from the given result
         /// </summary>
-        protected Result(Result result) : this()
+        protected Result(IResult result) : this()
         {
             ErrorType = result.ErrorType;
+            Exception = result.Exception;
             Message = result.Message;
             MessageArgs = result.MessageArgs;
         }

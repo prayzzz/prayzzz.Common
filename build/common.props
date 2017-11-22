@@ -12,10 +12,6 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <CodeAnalysisRuleSet>..\..\prayzzz.Common.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
   <Target Name="PrintVersion" BeforeTargets="BeforeBuild">
     <Message Text="Building $(AssemblyName) version $(Version)" Importance="High" />
   </Target>

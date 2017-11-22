@@ -32,7 +32,12 @@ namespace prayzzz.Common.Results
             Message = result.ToString();
         }
 
-        public ErrorResult(Result result) : base(result)
+        /// <inheritdoc />
+        /// <summary>
+        /// Creates a new ErrorResult from the given <paramref name="result"/>.
+        /// If <see cref="T:prayzzz.Common.Results.ErrorType" /> is None, ErrorType.Unknown is used instead.
+        /// </summary>
+        public ErrorResult(IResult result) : base(result)
         {
             if (result.ErrorType == ErrorType.None)
             {
@@ -40,7 +45,11 @@ namespace prayzzz.Common.Results
             }
         }
 
-        public ErrorResult(ErrorType errorType, Result result) : base(result)
+        /// <inheritdoc />
+        /// <summary>
+        /// Creates a new ErrorResult from the given <paramref name="result"/> using the given <paramref name="errorType"/>.
+        /// </summary>
+        public ErrorResult(ErrorType errorType, IResult result) : base(result)
         {
             ErrorType = errorType;
         }
@@ -76,15 +85,23 @@ namespace prayzzz.Common.Results
             Message = result.ToString();
         }
 
-        public ErrorResult(Result result) : base(result)
+        /// <inheritdoc />
+        /// <summary>
+        /// Creates a new ErrorResult from the given <paramref name="result"/>.
+        /// If <see cref="T:prayzzz.Common.Results.ErrorType" /> is None, ErrorType.Unknown is used instead.
+        /// </summary>
+        public ErrorResult(IResult result) : base(result)
         {
             if (result.ErrorType == ErrorType.None)
             {
                 ErrorType = ErrorType.Unknown;
             }
         }
-
-        public ErrorResult(ErrorType errorType, Result result) : base(result)
+        /// <inheritdoc />
+        /// <summary>
+        /// Creates a new ErrorResult from the given <paramref name="result"/> using the given <paramref name="errorType"/>.
+        /// </summary>
+        public ErrorResult(ErrorType errorType, IResult result) : base(result)
         {
             ErrorType = errorType;
         }

@@ -1,29 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
-  
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\prayzzz.Common.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="Data\*.json" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="1.1.18" />
-    <PackageReference Include="MSTest.TestFramework" Version="1.1.18" />
-    <PackageReference Include="Moq" Version="4.7.127" />
-    <PackageReference Include="Roslynator.Analyzers" Version="1.5.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="Moq" Version="4.7.145" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
   </ItemGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\..\src\prayzzz.Common\prayzzz.Common.csproj" />
     <ProjectReference Include="..\..\src\prayzzz.Common.Mvc\prayzzz.Common.Mvc.csproj" />
     <ProjectReference Include="..\..\src\prayzzz.Common.Unit\prayzzz.Common.Unit.csproj" />
   </ItemGroup>
-  
 </Project>

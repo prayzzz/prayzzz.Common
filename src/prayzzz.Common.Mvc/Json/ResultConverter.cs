@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Linq;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using prayzzz.Common.Results;
-using System;
-using System.Linq;
 
 namespace prayzzz.Common.Mvc.Json
 {
@@ -29,11 +29,11 @@ namespace prayzzz.Common.Mvc.Json
                 throw new JsonSerializationException("Cannot deserialize data results");
             }
 
-            var jsonObject = (JObject)serializer.Deserialize(reader);
+            var jsonObject = (JObject) serializer.Deserialize(reader);
 
             var isSuccess = TryGetValue<bool>(jsonObject, nameof(Result.IsSuccess));
             var message = TryGetValue<string>(jsonObject, nameof(Result.Message));
-            var errorType = (ErrorType)TryGetValue<int>(jsonObject, nameof(Result.ErrorType));
+            var errorType = (ErrorType) TryGetValue<int>(jsonObject, nameof(Result.ErrorType));
 
             var messageArgs = Array.Empty<object>();
             if (jsonObject.TryGetValue(nameof(Result.MessageArgs), StringComparison.OrdinalIgnoreCase, out var value))
