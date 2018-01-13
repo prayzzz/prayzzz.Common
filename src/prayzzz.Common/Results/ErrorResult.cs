@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace prayzzz.Common.Results
 {
@@ -26,10 +27,31 @@ namespace prayzzz.Common.Results
             MessageArgs = messageArgs;
         }
 
-        public ErrorResult(ValidationResult result)
+        public ErrorResult(TData data, ErrorType errorType, string message, params object[] messageArgs)
         {
-            ErrorType = ErrorType.ValidationError;
-            Message = result.ToString();
+            Data = data;
+            ErrorType = errorType;
+            Message = message;
+            MessageArgs = messageArgs;
+        }
+
+        public ErrorResult(TData data, Exception exception, string message, params object[] messageArgs)
+        {
+            Data = data;
+            ErrorType = ErrorType.InternalError;
+            Exception = exception;
+            Message = message;
+            MessageArgs = messageArgs;
+        }
+
+        [JsonConstructor]
+        public ErrorResult(TData data, Exception exception, ErrorType errorType, string message, params object[] messageArgs)
+        {
+            Data = data;
+            ErrorType = errorType;
+            Exception = exception;
+            Message = message;
+            MessageArgs = messageArgs;
         }
 
         /// <inheritdoc />
@@ -79,10 +101,13 @@ namespace prayzzz.Common.Results
             MessageArgs = messageArgs;
         }
 
-        public ErrorResult(ValidationResult result)
+        [JsonConstructor]
+        public ErrorResult(Exception exception, ErrorType errorType, string message, params object[] messageArgs)
         {
-            ErrorType = ErrorType.ValidationError;
-            Message = result.ToString();
+            ErrorType = errorType;
+            Exception = exception;
+            Message = message;
+            MessageArgs = messageArgs;
         }
 
         /// <inheritdoc />
@@ -97,6 +122,7 @@ namespace prayzzz.Common.Results
                 ErrorType = ErrorType.Unknown;
             }
         }
+
         /// <inheritdoc />
         /// <summary>
         /// Creates a new ErrorResult from the given <paramref name="result"/> using the given <paramref name="errorType"/>.

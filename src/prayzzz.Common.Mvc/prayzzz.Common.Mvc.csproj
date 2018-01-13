@@ -6,9 +6,9 @@
     <PackageTags>common;mvc;filters;json</PackageTags>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\prayzzz.Common\prayzzz.Common.csproj" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.2"/>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.1" />
+      <ProjectReference Include="..\prayzzz.Common\prayzzz.Common.csproj"/>
   </ItemGroup>
 </Project>

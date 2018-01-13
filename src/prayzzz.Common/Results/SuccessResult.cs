@@ -1,4 +1,6 @@
-﻿namespace prayzzz.Common.Results
+﻿using Newtonsoft.Json;
+
+namespace prayzzz.Common.Results
 {
     public class SuccessResult<TData> : Result<TData>
     {
@@ -15,6 +17,7 @@
             MessageArgs = messageArgs;
         }
 
+        [JsonConstructor]
         public SuccessResult(TData data, string message, params object[] messageArgs)
         {
             Data = data;
@@ -41,6 +44,7 @@
             ErrorType = ErrorType.None;
         }
 
+        [JsonConstructor]
         public SuccessResult(string message, params object[] messageArgs)
         {
             ErrorType = ErrorType.None;

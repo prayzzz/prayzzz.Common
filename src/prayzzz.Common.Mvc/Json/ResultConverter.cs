@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using prayzzz.Common.Results;
@@ -19,55 +18,64 @@ namespace prayzzz.Common.Mvc.Json
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            if (objectType.IsConstructedGenericType)
-            {
-                throw new JsonSerializationException("Cannot deserialize data results");
-            }
-
             var jsonObject = (JObject) serializer.Deserialize(reader);
 
-            var isSuccess = TryGetValue<bool>(jsonObject, nameof(Result.IsSuccess));
-            var message = TryGetValue<string>(jsonObject, nameof(Result.Message));
-            var errorType = (ErrorType) TryGetValue<int>(jsonObject, nameof(Result.ErrorType));
-
-            var messageArgs = Array.Empty<object>();
-            if (jsonObject.TryGetValue(nameof(Result.MessageArgs), StringComparison.OrdinalIgnoreCase, out var value))
+            var success = jsonObject.GetValue(nameof(Result.IsSuccess), StringComparison.OrdinalIgnoreCase);
+            if (success != null && success.ToObject<bool>())
             {
-                messageArgs = value.Values<string>().ToArray<object>();
+                return jsonObject.ToObject<SuccessResult>();
             }
-
-            if (isSuccess)
+            else
             {
-                return new SuccessResult(message, messageArgs);
+                return jsonObject.ToObject<ErrorResult>();
             }
-
-            var exception = TryGetValue<Exception>(jsonObject, nameof(Result.Exception));
-            if (exception != null)
-            {
-                return new ErrorResult(exception, message, messageArgs);
-            }
-
-            return new ErrorResult(errorType, message, messageArgs);
         }
 
         public override bool CanConvert(Type objectType)
         {
-            return ResultType.IsAssignableFrom(objectType);
+            return ResultType == objectType;
+        }
+    }
+
+    public class ResultOfTConverter : JsonConverter
+    {
+        private static readonly Type ResultOfTType;
+
+        static ResultOfTConverter()
+        {
+            ResultOfTType = typeof(Result<>);
         }
 
-        private static T TryGetValue<T>(JObject obj, string name)
-        {
-            if (obj.TryGetValue(name, StringComparison.OrdinalIgnoreCase, out var value))
-            {
-                return value.Value<T>();
-            }
+        public override bool CanWrite => false;
 
-            return default(T);
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jsonObject = (JObject) serializer.Deserialize(reader);
+
+            var success = jsonObject.GetValue(nameof(Result.IsSuccess), StringComparison.OrdinalIgnoreCase);
+            if (success != null && success.ToObject<bool>())
+            {
+                var type = typeof(SuccessResult<>).MakeGenericType(objectType.GenericTypeArguments);
+                return jsonObject.ToObject(type);
+            }
+            else
+            {
+                var type = typeof(ErrorResult<>).MakeGenericType(objectType.GenericTypeArguments);
+                return jsonObject.ToObject(type);
+            }
+        }
+
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType.IsGenericType && objectType.GetGenericTypeDefinition() == ResultOfTType;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using prayzzz.Common.Mvc.Json;
 using prayzzz.Common.Results;
@@ -16,7 +17,7 @@ namespace prayzzz.Common.Test.Json
             var successResult = new SuccessResult();
             var json = JsonConvert.SerializeObject(successResult, settings);
 
-            Assert.AreEqual("{\"ErrorType\":0,\"Exception\":null,\"IsSuccess\":true,\"IsError\":false,\"Message\":\"\",\"MessageArgs\":[]}", json);
+            Assert.AreEqual("{\"ErrorType\":0,\"Exception\":null,\"IsError\":false,\"IsSuccess\":true,\"Message\":\"\",\"MessageArgs\":[]}", json);
         }
 
         [TestMethod]
@@ -27,17 +28,25 @@ namespace prayzzz.Common.Test.Json
             var successResult = new SuccessResult<string>("My Data");
             var json = JsonConvert.SerializeObject(successResult, settings);
 
-            Assert.AreEqual("{\"ErrorType\":0,\"Exception\":null,\"IsSuccess\":true,\"IsError\":false,\"Message\":\"\",\"MessageArgs\":[]}", json);
+            Assert.AreEqual("{\"Data\":\"My Data\",\"ErrorType\":0,\"Exception\":null,\"IsError\":false,\"IsSuccess\":true,\"Message\":\"\",\"MessageArgs\":[]}", json);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(JsonSerializationException))]
         public void DeserializeDataResult()
         {
             var settings = new JsonSerializerSettings { ContractResolver = new ResultContractResolver() };
 
-            var json = "{\"ErrorType\":0,\"Exception\":null,\"IsSuccess\":true,\"IsError\":false,\"Message\":\"\",\"MessageArgs\":[]}";
-            JsonConvert.DeserializeObject<SuccessResult<string>>(json, settings);
+            var json = "{\"Data\":\"My Data\",\"ErrorType\":0,\"Exception\":null,\"IsSuccess\":true,\"IsError\":false,\"Message\":\"\",\"MessageArgs\":[]}";
+            var result = JsonConvert.DeserializeObject<SuccessResult<string>>(json, settings);
+            
+            Assert.IsInstanceOfType(result, typeof(SuccessResult<string>));
+            Assert.AreEqual(ErrorType.None, result.ErrorType);
+            Assert.IsNull(result.Exception);
+            Assert.IsTrue(result.IsSuccess);
+            Assert.IsFalse(result.IsError);
+            Assert.AreEqual("", result.Message);
+            Assert.AreEqual(0, result.MessageArgs.Length);
+            Assert.AreEqual("My Data", result.Data);
         }
 
         [TestMethod]
@@ -54,6 +63,40 @@ namespace prayzzz.Common.Test.Json
             Assert.IsFalse(successResult.IsError);
             Assert.AreEqual("", successResult.Message);
             Assert.AreEqual(0, successResult.MessageArgs.Length);
+        }
+
+        [TestMethod]
+        public void DeserializeSimpleSuccessResultAsAbstractResult()
+        {
+            var settings = new JsonSerializerSettings { ContractResolver = new ResultContractResolver() };
+            
+            var json = "{\"ErrorType\":0,\"Exception\":null,\"IsSuccess\":true,\"IsError\":false,\"Message\":\"\",\"MessageArgs\":[]}";
+            var result = JsonConvert.DeserializeObject<Result>(json, settings);
+
+            Assert.IsInstanceOfType(result, typeof(SuccessResult));
+            Assert.AreEqual(ErrorType.None, result.ErrorType);
+            Assert.IsNull(result.Exception);
+            Assert.IsTrue(result.IsSuccess);
+            Assert.IsFalse(result.IsError);
+            Assert.AreEqual("", result.Message);
+            Assert.AreEqual(0, result.MessageArgs.Length);
+        }
+
+        [TestMethod]
+        public void DeserializeDataResultAsAbstractResult()
+        {
+            var settings = new JsonSerializerSettings { ContractResolver = new ResultContractResolver() };
+            
+            var json = "{\"Data\":\"My Data\",\"ErrorType\":0,\"Exception\":null,\"IsSuccess\":true,\"IsError\":false,\"Message\":\"\",\"MessageArgs\":[]}";
+            var result = JsonConvert.DeserializeObject<Result<string>>(json, settings);
+
+            Assert.IsInstanceOfType(result, typeof(SuccessResult<string>));
+            Assert.AreEqual(ErrorType.None, result.ErrorType);
+            Assert.IsNull(result.Exception);
+            Assert.IsTrue(result.IsSuccess);
+            Assert.IsFalse(result.IsError);
+            Assert.AreEqual("", result.Message);
+            Assert.AreEqual(0, result.MessageArgs.Length);
         }
     }
 }
