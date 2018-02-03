@@ -1,82 +1,55 @@
 ﻿using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace prayzzz.Common.Results
 {
-    public interface IResult<out TData> : IResult
+    public struct Result
     {
-        TData Data { get; }
-    }
+        public static readonly Result Success = new Result(ErrorType.None, string.Empty);
+        public static readonly Result NotFound = new Result(ErrorType.NotFound, "Not Found");
+        public static readonly Result Unauthorized = new Result(ErrorType.Unauthorized, "Unauthorized");
 
-    public interface IResult
-    {
-        ErrorType ErrorType { get; }
-
-        Exception Exception { get; }
-
-        bool IsError { get; }
-
-        bool IsSuccess { get; }
-
-        string Message { get; }
-
-        object[] MessageArgs { get; }
-    }
-
-    public abstract class Result<TData> : Result, IResult<TData>
-    {
-        /// <inheritdoc />
-        protected Result()
+        public Result(Exception exception)
         {
-        }
-
-        /// <inheritdoc />
-        protected Result(IResult result) : base(result)
-        {
-        }
-
-        public TData Data { get; protected set; }
-    }
-
-    public abstract class Result : IResult
-    {
-        /// <summary>
-        ///     Creates a new result with ErrorType.None
-        /// </summary>
-        protected Result()
-        {
-            ErrorType = ErrorType.None;
-            Message = string.Empty;
+            ErrorType = ErrorType.InternalError;
+            Message = exception.Message;
             MessageArgs = Array.Empty<object>();
+            Exception = exception;
         }
 
-        /// <summary>
-        ///     Creates a new result from the given result
-        /// </summary>
-        protected Result(IResult result) : this()
+        public Result(Result result)
         {
             ErrorType = result.ErrorType;
-            Exception = result.Exception;
             Message = result.Message;
             MessageArgs = result.MessageArgs;
+            Exception = result.Exception;
         }
 
-        public ErrorType ErrorType { get; protected set; }
+        public Result(ErrorType errorType, string message, params object[] messageArgs)
+        {
+            ErrorType = errorType;
+            Message = message;
+            MessageArgs = messageArgs;
+            Exception = null;
+        }
 
-        public Exception Exception { get; protected set; }
+        public Result(ErrorType errorType, Exception exception, string message, params object[] messageArgs)
+        {
+            ErrorType = errorType;
+            Message = message;
+            MessageArgs = messageArgs;
+            Exception = exception;
+        }
+
+        public ErrorType ErrorType { get; }
+
+        public Exception Exception { get; }
 
         public bool IsError => ErrorType != ErrorType.None;
 
         public bool IsSuccess => ErrorType == ErrorType.None;
 
-        public string Message { get; protected set; }
+        public string Message { get; }
 
-        public object[] MessageArgs { get; protected set; }
-
-        public string ToMessageString()
-        {
-            return string.Format(Message, MessageArgs);
-        }
+        public object[] MessageArgs { get; }
     }
 }

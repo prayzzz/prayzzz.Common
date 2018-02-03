@@ -19,7 +19,8 @@ namespace prayzzz.Common.Test
             var entity = JsonConvert.DeserializeObject<Entity>(content);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(SuccessResult));
+            Assert.IsInstanceOfType(result, typeof(Result));
+            Assert.IsTrue(result.IsSuccess);
             Assert.AreEqual("Bar", entity.Foo);
         }
 

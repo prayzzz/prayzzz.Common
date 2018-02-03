@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
-using prayzzz.Common.Results;
 using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using prayzzz.Common.Results;
 
 namespace prayzzz.Common
 {
@@ -16,59 +16,59 @@ namespace prayzzz.Common
             _logger = logger;
         }
 
-        public async Task<(Result result, string content)> ReadEmbeddedFileAsync(Assembly assembly, string filePath)
+        public async Task<(Result Result, string Content)> ReadEmbeddedFileAsync(Assembly assembly, string filePath)
         {
-            _logger.LogDebug($"Loading file \"{filePath}\" from \"{assembly.FullName}\"");
+            _logger.LogDebug($"Loading file '{filePath}' from '{assembly.FullName}'");
 
             var name = $"{assembly.GetName().Name}.{filePath}";
             using (var stream = assembly.GetManifestResourceStream(name))
             {
                 if (stream == null)
                 {
-                    return (new ErrorResult(new FileNotFoundException(name), "File not found"), string.Empty);
+                    return (Result.NotFound, string.Empty);
                 }
 
                 using (var reader = new StreamReader(stream))
                 {
-                    return (new SuccessResult(), await reader.ReadToEndAsync());
+                    return (Result.Success, await reader.ReadToEndAsync());
                 }
             }
         }
 
-        public (Result result, string content) ReadEmbeddedFile(Assembly assembly, string filePath)
+        public (Result Result, string Content) ReadEmbeddedFile(Assembly assembly, string filePath)
         {
-            _logger.LogDebug($"Loading file \"{filePath}\" from \"{assembly.FullName}\"");
+            _logger.LogDebug($"Loading file '{filePath}' from '{assembly.FullName}'");
 
             var name = $"{assembly.GetName().Name}.{filePath}";
             using (var stream = assembly.GetManifestResourceStream(name))
             {
                 if (stream == null)
                 {
-                    return (new ErrorResult(new FileNotFoundException(name), "File not found"), string.Empty);
+                    return (Result.NotFound, string.Empty);
                 }
 
                 using (var reader = new StreamReader(stream))
                 {
-                    return (new SuccessResult(), reader.ReadToEnd());
+                    return (Result.Success, reader.ReadToEnd());
                 }
             }
         }
 
         public (Result result, byte[] content) ReadEmbeddedBinaryFile(Assembly assembly, string filePath)
         {
-            _logger.LogDebug($"Loading file \"{filePath}\" from \"{assembly.FullName}\"");
+            _logger.LogDebug($"Loading file '{filePath}' from '{assembly.FullName}'");
 
             var name = $"{assembly.GetName().Name}.{filePath}";
             using (var stream = assembly.GetManifestResourceStream(name))
             {
                 if (stream == null)
                 {
-                    return (new ErrorResult(new FileNotFoundException(name), "File not found"), Array.Empty<byte>());
+                    return (Result.NotFound, Array.Empty<byte>());
                 }
 
                 using (var reader = new BinaryReader(stream))
                 {
-                    return (new SuccessResult(), reader.ReadBytes((int)stream.Length));
+                    return (Result.Success, reader.ReadBytes((int) stream.Length));
                 }
             }
         }

@@ -16,4 +16,7 @@
     <ProjectReference Include="..\..\src\prayzzz.Common.Mvc\prayzzz.Common.Mvc.csproj" />
     <ProjectReference Include="..\..\src\prayzzz.Common.Unit\prayzzz.Common.Unit.csproj" />
   </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Results"/>
+    </ItemGroup>
 </Project>
