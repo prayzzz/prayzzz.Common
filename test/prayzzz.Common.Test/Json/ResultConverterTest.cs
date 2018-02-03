@@ -25,7 +25,7 @@ namespace prayzzz.Common.Test.Json
             var jsonSettings = new JsonSerializerSettings { Converters = new List<JsonConverter> { new ResultConverter() } };
             var json = JsonConvert.SerializeObject(result, jsonSettings);
 
-            Assert.AreEqual("{\"ErrorType\":0,\"Message\":\"Success!\"}", json);
+            Assert.AreEqual("{\"ErrorType\":0,\"Message\":\"Success!\",\"IsError\":false,\"IsSuccess\":true}", json);
         }
 
         [TestMethod]
@@ -51,7 +51,7 @@ namespace prayzzz.Common.Test.Json
             var jsonSettings = new JsonSerializerSettings { Converters = new List<JsonConverter> { new ResultConverter() } };
             var json = JsonConvert.SerializeObject(result, jsonSettings);
 
-            Assert.AreEqual("{\"ErrorType\":4,\"Message\":\"Error!\"}", json);
+            Assert.AreEqual("{\"ErrorType\":4,\"Message\":\"Error!\",\"IsError\":true,\"IsSuccess\":false}", json);
         }
 
         [TestMethod]

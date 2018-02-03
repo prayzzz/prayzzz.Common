@@ -16,7 +16,9 @@ namespace prayzzz.Common.Mvc.Json
             var jObject = new JObject
             {
                 new JProperty(nameof(Result.ErrorType), result.ErrorType),
-                new JProperty(nameof(Result.Message), result.ToMessageString())
+                new JProperty(nameof(Result.Message), result.ToMessageString()),
+                new JProperty(nameof(Result.IsError), result.IsError),
+                new JProperty(nameof(Result.IsSuccess), result.IsSuccess)
             };
 
             jObject.WriteTo(writer);

@@ -16,7 +16,7 @@ namespace prayzzz.Common.Test.Json
             var successResult = new Result();
             var json = JsonConvert.SerializeObject(successResult, settings);
 
-            Assert.AreEqual("{\"ErrorType\":0,\"Message\":\"\"}", json);
+            Assert.AreEqual("{\"ErrorType\":0,\"Message\":\"\",\"IsError\":false,\"IsSuccess\":true}", json);
         }
 
         [TestMethod]
