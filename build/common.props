@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <VersionPrefix>1.0.0-unstable</VersionPrefix>
-        <VersionSuffix></VersionSuffix>
+        <!--<VersionPrefix>1.0.0-unstable</VersionPrefix>-->
+        <!--<VersionSuffix></VersionSuffix>-->
         <PackageLicenseUrl>https://github.com/prayzzz/prayzzz.Common/blob/master/LICENSE</PackageLicenseUrl>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/prayzzz/prayzzz.Common</RepositoryUrl>
