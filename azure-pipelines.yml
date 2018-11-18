@@ -6,15 +6,15 @@
 pool:
   vmImage: 'Ubuntu 16.04'
 
+name: $(Major).$(Minor).$(Patch).$(Rev:r)-$(Build.SourceBranchName)
+
 variables:
   BuildConfiguration: Release
   Major: '1'
   Minor: '0'
   Patch: '0'
-  BuildVersion: $(Major).$(Minor).$(Patch).$(Rev:r)-$(Build.SourceBranchName)
-
-name: $(BuildVersion)
-
+  BuildVersion: $(Name)
+  
 steps:
 - task: DotNetCoreCLI@2
   inputs:
@@ -33,7 +33,8 @@ steps:
   inputs:
     command: pack
     packagesToPack: '**/*.csproj;-:**/*.Test.csproj'
-    versioningScheme: byBuildNumber
+    versioningScheme: byEnvVar
+    versionEnvVar: BuildVersion
 
 - task: DotNetCoreCLI@2
   condition: and(not(failed()), not(eq(variables['Build.Reason'], 'PullRequest')))
