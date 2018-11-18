@@ -37,7 +37,7 @@ steps:
     patchVersion: '$(Patch)'
 
 - task: DotNetCoreCLI@2
-  condition: eq(variables['Build.Reason'], 'PullRequest')
+  condition: not(eq(variables['Build.Reason'], 'PullRequest'))
   inputs:
     command: push
     publishVstsFeed: nupkg
