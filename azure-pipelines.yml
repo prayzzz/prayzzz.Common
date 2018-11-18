@@ -21,7 +21,7 @@ steps:
     projects: '**/*.csproj'
     arguments: --configuration $(BuildConfiguration)
     versioningScheme: byEnvVar
-    versionEnvVar: $(Name)
+    versionEnvVar: name
 
 - task: DotNetCoreCLI@2
   inputs:
@@ -35,10 +35,10 @@ steps:
     command: pack
     packagesToPack: '**/*.csproj;-:**/*.Test.csproj'
     versioningScheme: byEnvVar
-    versionEnvVar: $(Name)
+    versionEnvVar: name
 
 - task: DotNetCoreCLI@2
-  condition: not(eq(variables['Build.Reason'], 'PullRequest'))
+  condition: and(not(failed), not(eq(variables['Build.Reason'], 'PullRequest')))
   inputs:
     command: push
     publishVstsFeed: nupkg
