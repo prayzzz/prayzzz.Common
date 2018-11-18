@@ -12,6 +12,8 @@ variables:
   Minor: '0'
   Patch: '0'
 
+name: $(Major).$(Minor).$(Patch).$(Rev:r)-$(Build.SourceBranchName)
+
 steps:
 - task: DotNetCoreCLI@2
   inputs:
@@ -19,7 +21,7 @@ steps:
     projects: '**/*.csproj'
     arguments: --configuration $(BuildConfiguration)
     versioningScheme: byEnvVar
-    versionEnvVar: $(Major).$(Minor).$(Patch).$(Rev:r)-$(Build.SourceBranchName)
+    versionEnvVar: $(Name)
 
 - task: DotNetCoreCLI@2
   inputs:
