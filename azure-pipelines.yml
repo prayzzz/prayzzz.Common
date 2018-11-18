@@ -18,10 +18,8 @@ steps:
     command: build
     projects: '**/*.csproj'
     arguments: --configuration $(BuildConfiguration)
-    versioningScheme: byPrereleaseNumber
-    majorVersion: '$(Major)'
-    minorVersion: '$(Minor)'
-    patchVersion: '$(Patch)'
+    versioningScheme: byEnvVar
+    versionEnvVar: $(Major).$(Minor).$(Patch).$(Rev:r)-$(Build.SourceBranchName)
 
 - task: DotNetCoreCLI@2
   inputs:
