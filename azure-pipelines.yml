@@ -21,8 +21,6 @@ steps:
     command: build
     projects: '**/*.csproj'
     arguments: --configuration $(BuildConfiguration)
-    versioningScheme: byEnvVar
-    versionEnvVar: BuildVersion
 
 - task: DotNetCoreCLI@2
   inputs:
@@ -35,8 +33,7 @@ steps:
   inputs:
     command: pack
     packagesToPack: '**/*.csproj;-:**/*.Test.csproj'
-    versioningScheme: byEnvVar
-    versionEnvVar: BuildVersion
+    versioningScheme: byBuildNumber
 
 - task: DotNetCoreCLI@2
   condition: and(not(failed()), not(eq(variables['Build.Reason'], 'PullRequest')))
