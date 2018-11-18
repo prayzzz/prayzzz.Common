@@ -11,8 +11,9 @@ variables:
   Major: '1'
   Minor: '0'
   Patch: '0'
+  BuildVersion: $(Major).$(Minor).$(Patch).$(Rev:r)-$(Build.SourceBranchName)
 
-name: $(Major).$(Minor).$(Patch).$(Rev:r)-$(Build.SourceBranchName)
+name: $(BuildVersion)
 
 steps:
 - task: DotNetCoreCLI@2
@@ -21,7 +22,7 @@ steps:
     projects: '**/*.csproj'
     arguments: --configuration $(BuildConfiguration)
     versioningScheme: byEnvVar
-    versionEnvVar: name
+    versionEnvVar: BuildVersion
 
 - task: DotNetCoreCLI@2
   inputs:
@@ -35,7 +36,7 @@ steps:
     command: pack
     packagesToPack: '**/*.csproj;-:**/*.Test.csproj'
     versioningScheme: byEnvVar
-    versionEnvVar: name
+    versionEnvVar: BuildVersion
 
 - task: DotNetCoreCLI@2
   condition: and(not(failed()), not(eq(variables['Build.Reason'], 'PullRequest')))
