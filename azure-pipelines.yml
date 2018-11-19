@@ -12,7 +12,7 @@ variables:
   Minor: '0'
   Patch: '0'
   BuildRevision: $[counter('buildrevision', 100)]
-  BuildVersion: $(Major).$(Minor).$(Patch)-CI-$(BuildRevision)-$(Build.SourceBranchName)
+  BuildVersion: $(Major).$(Minor).$(Patch)-CI-$(Date)-$(Build.SourceBranchName)
 
 name: $(Major).$(Minor).$(Patch)-CI-$(BuildRevision)-$(Build.SourceBranchName)
   
