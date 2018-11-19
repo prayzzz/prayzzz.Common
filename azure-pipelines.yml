@@ -6,14 +6,14 @@
 pool:
   vmImage: 'Ubuntu 16.04'
 
-name: $(BuildVersion)
-
 variables:
   BuildConfiguration: Release
   Major: '1'
   Minor: '0'
   Patch: '0'
-  BuildVersion: $(Major).$(Minor).$(Patch)-CI-$(Date:yyyymmdd-hhmmss)-$(Build.SourceBranchName)
+  BuildVersion: $(Major).$(Minor).$(Patch)-CI-$(Date:yyyyMMdd)-$(Build.SourceBranchName)
+
+name: $(BuildVersion)
   
 steps:
 - task: DotNetCoreCLI@2
