@@ -14,7 +14,7 @@ variables:
   BuildRevision: $[counter('buildrevision', 100)]
   BuildVersion: $(Major).$(Minor).$(Patch)-CI-$(Date)-$(Build.SourceBranchName)
 
-name: $(Major).$(Minor).$(Patch)-CI-$(BuildRevision)-$(Build.SourceBranchName)
+name: $(Major).$(Minor).$(Patch)-CI-$(Date)-$(Build.SourceBranchName)
   
 steps:
 - task: DotNetCoreCLI@2
