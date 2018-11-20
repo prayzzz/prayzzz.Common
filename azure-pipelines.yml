@@ -21,7 +21,7 @@ jobs:
   steps:
   - task: DotNetCoreCLI@2
     inputs:
-      command: build'
+      command: build
       projects: '**/*.csproj'
       arguments: --configuration $(BuildConfiguration)
 
