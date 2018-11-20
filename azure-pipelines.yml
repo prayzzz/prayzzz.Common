@@ -17,36 +17,40 @@ variables:
 
 name: $(Major).$(Minor).$(Patch).$(BuildRevision)-$(Build.SourceBranchName)
   
-steps:
-- task: DotNetCoreCLI@2
-  inputs:
-    command: build
-    projects: '**/*.csproj'
-    arguments: --configuration $(BuildConfiguration)
+jobs:
+- job: Build and Test
+  steps:
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: build'
+      projects: '**/*.csproj'
+      arguments: --configuration $(BuildConfiguration)
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: test
-    projects: '**/*.Test.csproj'
-    arguments: --configuration $(BuildConfiguration)
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: test
+      projects: '**/*.Test.csproj'
+      arguments: --configuration $(BuildConfiguration)
 
 #
 # Create CI packages
 #
+- job: Build CI Package
+  dependsOn: Build and Test
+  condition: not(eq(variables['Build.Reason'], 'PullRequest'))
+  steps:
+  - task: DotNetCoreCLI@2
+    inputs:
+        command: pack
+        packagesToPack: '**/*.csproj;-:**/*.Test.csproj'
+        versioningScheme: byEnvVar
+        versionEnvVar: BuildVersion
 
-- task: DotNetCoreCLI@2
-  condition: and(not(failed()), not(eq(variables['Build.Reason'], 'PullRequest')))
-  inputs:
-    command: pack
-    packagesToPack: '**/*.csproj;-:**/*.Test.csproj'
-    versioningScheme: byEnvVar
-    versionEnvVar: BuildVersion
-
-- task: DotNetCoreCLI@2
-  condition: and(not(failed()), not(eq(variables['Build.Reason'], 'PullRequest')))
-  inputs:
-    command: push
-    publishVstsFeed: nupkg
+  - task: DotNetCoreCLI@2
+    condition: not(failed())
+    inputs:
+        command: push
+        publishVstsFeed: nupkg
 
 #
 # END Create CI packages
@@ -55,20 +59,22 @@ steps:
 #
 # Create RELEASE packages
 #
+- job: Build Release Package
+  dependsOn: Build and Test
+  condition: startsWith('refs/tags/', variables['Build.SourceBranch']))
+  steps:
+  - task: DotNetCoreCLI@2
+    inputs:
+        command: pack
+        packagesToPack: '**/*.csproj;-:**/*.Test.csproj'
+        versioningScheme: byEnvVar
+        versionEnvVar: BranchName
 
-- task: DotNetCoreCLI@2
-  condition: and(not(failed()), startsWith($(Build.SourceBranch), 'refs/tags/')))
-  inputs:
-    command: pack
-    packagesToPack: '**/*.csproj;-:**/*.Test.csproj'
-    versioningScheme: byEnvVar
-    versionEnvVar: BranchName
-
-- task: DotNetCoreCLI@2
-  condition: and(not(failed()), startsWith($(Build.SourceBranch), 'refs/tags/')))
-  inputs:
-    command: push
-    publishVstsFeed: nupkg
+  - task: DotNetCoreCLI@2
+    condition: not(failed())
+    inputs:
+        command: push
+        publishVstsFeed: nupkg
 
 #
 # END Create RELEASE packages
