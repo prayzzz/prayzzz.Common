@@ -11,6 +11,7 @@ variables:
   Major: '1'
   Minor: '0'
   Patch: '0'
+  BranchName: $(Build.SourceBranchName)
   BuildRevision: $[counter('buildrevision', 100)]
   BuildVersion: $(Major).$(Minor).$(Patch).$(BuildRevision)-$(Build.SourceBranchName)
 
@@ -28,9 +29,13 @@ steps:
     command: test
     projects: '**/*.Test.csproj'
     arguments: --configuration $(BuildConfiguration)
-    
+
+#
+# Create CI packages
+#
+
 - task: DotNetCoreCLI@2
-  condition: not(eq(variables['Build.Reason'], 'PullRequest'))
+  condition: and(not(failed()), not(eq(variables['Build.Reason'], 'PullRequest')))
   inputs:
     command: pack
     packagesToPack: '**/*.csproj;-:**/*.Test.csproj'
@@ -42,3 +47,29 @@ steps:
   inputs:
     command: push
     publishVstsFeed: nupkg
+
+#
+# END Create CI packages
+#
+
+#
+# Create RELEASE packages
+#
+
+- task: DotNetCoreCLI@2
+  condition: and(not(failed()), startsWith($(Build.SourceBranch), 'refs/tags/')))
+  inputs:
+    command: pack
+    packagesToPack: '**/*.csproj;-:**/*.Test.csproj'
+    versioningScheme: byEnvVar
+    versionEnvVar: BranchName
+
+- task: DotNetCoreCLI@2
+  condition: and(not(failed()), startsWith($(Build.SourceBranch), 'refs/tags/')))
+  inputs:
+    command: push
+    publishVstsFeed: nupkg
+
+#
+# END Create RELEASE packages
+#
