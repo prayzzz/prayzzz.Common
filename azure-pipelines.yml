@@ -22,7 +22,7 @@ name: $(Major).$(Minor).$(Patch).$(BuildRevision)-$(Build.SourceBranchName)
 jobs:
 - job: Build_and_Test
   pool:
-    name: default
+    name: Hosted
   container: dev1
   steps:
   - task: DotNetCoreCLI@2
