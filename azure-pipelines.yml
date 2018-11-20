@@ -48,7 +48,7 @@ steps:
       versionEnvVar: Build.SourceBranchName
 
 - task: DotNetCoreCLI@2
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), startsWith('refs/tags/', variables['Build.SourceBranch']))
+  condition: and(succeeded(), or(ne(variables['Build.Reason'], 'PullRequest'), startsWith('refs/tags/', variables['Build.SourceBranch']))
   inputs:
       command: push
       publishVstsFeed: nupkg
