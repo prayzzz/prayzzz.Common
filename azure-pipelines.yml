@@ -3,8 +3,10 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-pool:
-  vmImage: 'Ubuntu 16.04'
+resources:
+  containers:
+  - container: dev1
+    image: ubuntu:16.04
 
 variables:
   BuildConfiguration: Release
@@ -19,6 +21,9 @@ name: $(Major).$(Minor).$(Patch).$(BuildRevision)-$(Build.SourceBranchName)
   
 jobs:
 - job: Build and Test
+  pool:
+    name: default
+  container: dev1
   steps:
   - task: DotNetCoreCLI@2
     inputs:
@@ -32,10 +37,10 @@ jobs:
       projects: '**/*.Test.csproj'
       arguments: --configuration $(BuildConfiguration)
 
-#
-# Create CI packages
-#
 - job: Build CI Package
+  pool:
+    name: default
+  container: dev1
   dependsOn: Build and Test
   condition: not(eq(variables['Build.Reason'], 'PullRequest'))
   steps:
@@ -52,14 +57,10 @@ jobs:
         command: push
         publishVstsFeed: nupkg
 
-#
-# END Create CI packages
-#
-
-#
-# Create RELEASE packages
-#
 - job: Build Release Package
+  pool:
+    name: default
+  container: dev1
   dependsOn: Build and Test
   condition: startsWith('refs/tags/', variables['Build.SourceBranch']))
   steps:
@@ -75,7 +76,3 @@ jobs:
     inputs:
         command: push
         publishVstsFeed: nupkg
-
-#
-# END Create RELEASE packages
-#
