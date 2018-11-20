@@ -20,7 +20,7 @@ variables:
 name: $(Major).$(Minor).$(Patch).$(BuildRevision)-$(Build.SourceBranchName)
   
 jobs:
-- job: Build and Test
+- job: Build_and_Test
   pool:
     name: default
   container: dev1
@@ -37,11 +37,11 @@ jobs:
       projects: '**/*.Test.csproj'
       arguments: --configuration $(BuildConfiguration)
 
-- job: Build CI Package
+- job: Build_CI_Package
   pool:
     name: default
   container: dev1
-  dependsOn: Build and Test
+  dependsOn: Build_and_Test
   condition: not(eq(variables['Build.Reason'], 'PullRequest'))
   steps:
   - task: DotNetCoreCLI@2
@@ -57,11 +57,11 @@ jobs:
         command: push
         publishVstsFeed: nupkg
 
-- job: Build Release Package
+- job: Build_Release_Package
   pool:
     name: default
   container: dev1
-  dependsOn: Build and Test
+  dependsOn: Build_and_Test
   condition: startsWith('refs/tags/', variables['Build.SourceBranch'])
   steps:
   - task: DotNetCoreCLI@2
