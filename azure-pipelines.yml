@@ -35,7 +35,7 @@ jobs:
   pool:
     vmImage: 'Ubuntu 16.04'
   dependsOn: Build_and_Test
-  condition: not(eq(variables['Build.Reason'], 'PullRequest'))
+  condition: and(not(failed()), not(eq(variables['Build.Reason'], 'PullRequest')))
   steps:
   - task: DotNetCoreCLI@2
     inputs:
@@ -54,7 +54,7 @@ jobs:
   pool:
     vmImage: 'Ubuntu 16.04'
   dependsOn: Build_and_Test
-  condition: startsWith('refs/tags/', variables['Build.SourceBranch'])
+  condition: and(not(failed()), startsWith('refs/tags/', variables['Build.SourceBranch']))
   steps:
   - task: DotNetCoreCLI@2
     inputs:
