@@ -3,11 +3,6 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-resources:
-  containers:
-  - container: dev1
-    image: ubuntu:16.04
-
 variables:
   BuildConfiguration: Release
   Major: '1'
@@ -22,8 +17,7 @@ name: $(Major).$(Minor).$(Patch).$(BuildRevision)-$(Build.SourceBranchName)
 jobs:
 - job: Build_and_Test
   pool:
-    name: Hosted Agent
-  container: dev1
+    vmImage: 'Ubuntu 16.04'
   steps:
   - task: DotNetCoreCLI@2
     inputs:
@@ -39,8 +33,7 @@ jobs:
 
 - job: Build_CI_Package
   pool:
-    name: Hosted Agent
-  container: dev1
+    vmImage: 'Ubuntu 16.04'
   dependsOn: Build_and_Test
   condition: not(eq(variables['Build.Reason'], 'PullRequest'))
   steps:
@@ -59,8 +52,7 @@ jobs:
 
 - job: Build_Release_Package
   pool:
-    name: Hosted Agent
-  container: dev1
+    vmImage: 'Ubuntu 16.04'
   dependsOn: Build_and_Test
   condition: startsWith('refs/tags/', variables['Build.SourceBranch'])
   steps:
