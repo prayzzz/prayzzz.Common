@@ -22,7 +22,7 @@ name: $(Major).$(Minor).$(Patch).$(BuildRevision)-$(Build.SourceBranchName)
 jobs:
 - job: Build_and_Test
   pool:
-    name: Hosted
+    name: Hosted Agent
   container: dev1
   steps:
   - task: DotNetCoreCLI@2
@@ -39,7 +39,7 @@ jobs:
 
 - job: Build_CI_Package
   pool:
-    name: Hosted
+    name: Hosted Agent
   container: dev1
   dependsOn: Build_and_Test
   condition: not(eq(variables['Build.Reason'], 'PullRequest'))
@@ -59,7 +59,7 @@ jobs:
 
 - job: Build_Release_Package
   pool:
-    name: Hosted
+    name: Hosted Agent
   container: dev1
   dependsOn: Build_and_Test
   condition: startsWith('refs/tags/', variables['Build.SourceBranch'])
