@@ -62,7 +62,7 @@ jobs:
     name: default
   container: dev1
   dependsOn: Build and Test
-  condition: startsWith('refs/tags/', variables['Build.SourceBranch']))
+  condition: startsWith('refs/tags/', variables['Build.SourceBranch'])
   steps:
   - task: DotNetCoreCLI@2
     inputs:
