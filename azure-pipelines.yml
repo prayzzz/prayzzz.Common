@@ -1,7 +1,8 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Build and test every branch
+# Pack nupkg for every successful build, except pull requests and tags
+# Pack nupkg for tags, with the name of the tag
+# Publish nupkg to Azure Artifacts
+# TODO publish nupkg from tag to nuget
 
 pool:
   vmImage: 'Ubuntu 16.04'
@@ -14,7 +15,7 @@ variables:
   BuildRevision: $[counter('buildrevision', 100)]
   BuildVersion: $(Major).$(Minor).$(Patch).$(BuildRevision)-$(Build.SourceBranchName)
 
-name: $(Major).$(Minor).$(Patch).$(BuildRevision)-$(Build.SourceBranchName)
+name: $(BuildRevision)-$(Build.SourceBranchName)
 
 steps:
 - task: DotNetCoreCLI@2
@@ -31,7 +32,7 @@ steps:
 
 # CI Package
 - task: DotNetCoreCLI@2
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), not(startsWith(variables['Build.SourceBranch'], 'refs/tags/')))
   inputs:
       command: pack
       packagesToPack: '**/*.csproj;-:**/*.Test.csproj'
@@ -40,7 +41,7 @@ steps:
 
 # Release Package
 - task: DotNetCoreCLI@2
-  condition: and(succeeded(), startsWith('refs/tags/', variables['Build.SourceBranch']))
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
   inputs:
       command: pack
       packagesToPack: '**/*.csproj;-:**/*.Test.csproj'
