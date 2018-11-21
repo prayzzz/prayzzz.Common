@@ -1,0 +1,55 @@
+# Build and test every branch
+# Pack nupkg for every successful build, except pull requests and tags
+# Pack nupkg for tags, with the name of the tag
+# Publish nupkg to Azure Artifacts
+# TODO publish nupkg from tag to nuget
+
+pool:
+  vmImage: 'Ubuntu 16.04'
+
+variables:
+  BuildConfiguration: Release
+  Major: '1'
+  Minor: '0'
+  Patch: '0'
+  BuildRevision: $[counter('buildrevision', 100)]
+  BuildVersion: $(Major).$(Minor).$(Patch).$(BuildRevision)-$(Build.SourceBranchName)
+
+name: $(BuildRevision)-$(Build.SourceBranchName)
+
+steps:
+- task: DotNetCoreCLI@2
+  inputs:
+    command: build
+    projects: '**/*.csproj'
+    arguments: --configuration $(BuildConfiguration)
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: test
+    projects: '**/*.Test.csproj'
+    arguments: --configuration $(BuildConfiguration)
+
+# CI Package
+- task: DotNetCoreCLI@2
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), not(startsWith(variables['Build.SourceBranch'], 'refs/tags/')))
+  inputs:
+      command: pack
+      packagesToPack: '**/*.csproj;-:**/*.Test.csproj'
+      versioningScheme: byEnvVar
+      versionEnvVar: BuildVersion
+
+# Release Package
+- task: DotNetCoreCLI@2
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+  inputs:
+      command: pack
+      packagesToPack: '**/*.csproj;-:**/*.Test.csproj'
+      versioningScheme: byEnvVar
+      versionEnvVar: Build.SourceBranchName
+
+- task: DotNetCoreCLI@2
+  condition: and(succeeded(), or(ne(variables['Build.Reason'], 'PullRequest'), startsWith('refs/tags/', variables['Build.SourceBranch'])))
+  inputs:
+      command: push
+      publishVstsFeed: nupkg
