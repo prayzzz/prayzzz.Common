@@ -1,8 +1,6 @@
 # Build and test every branch
-# Pack nupkg for every successful build, except pull requests and tags
-# Pack nupkg for tags, with the name of the tag
-# Publish nupkg to Azure Artifacts
-# TODO publish nupkg from tag to nuget
+# Pack nupkg for every successful build, except pull requests and tags, push to Azure Artifacts
+# Pack nupkg for tags, with the name of the tag, push to NuGet
 
 pool:
   vmImage: 'Ubuntu 16.04'
@@ -32,7 +30,9 @@ steps:
     projects: '**/*.Test.csproj'
     arguments: --configuration $(BuildConfiguration)
 
-# CI Package
+  #
+  # CI 
+  #
 - task: DotNetCoreCLI@2
   displayName: dotnet pack (CI)
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), not(startsWith(variables['Build.SourceBranch'], 'refs/tags/')))
@@ -42,19 +42,32 @@ steps:
       versioningScheme: byEnvVar
       versionEnvVar: BuildVersion
 
-# Release Package
-- task: DotNetCoreCLI@2
-  displayName: dotnet pack (Tag)
-  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
-  inputs:
-      command: pack
-      packagesToPack: 'src/**/*.csproj'
-      versioningScheme: byEnvVar
-      versionEnvVar: Build.SourceBranchName
-
 - task: DotNetCoreCLI@2
   displayName: dotnet push (CI)
   condition: and(succeeded(), or(ne(variables['Build.Reason'], 'PullRequest'), startsWith(variables['Build.SourceBranch'], 'refs/tags/')))
   inputs:
       command: push
       publishVstsFeed: nupkg
+
+  #
+  # Tag
+  # 
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack (Tag)
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+  inputs:
+    command: pack
+    packagesToPack: 'src/**/*.csproj'
+    versioningScheme: byEnvVar
+    versionEnvVar: Build.SourceBranchName
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet push (Tag)
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+  inputs:
+    command: push
+    publishVstsFeed: nupkg
+    nuGetFeedType: external
+    publishFeedCredentials: 'NuGet'
+    versioningScheme: byEnvVar
+    versionEnvVar: Build.SourceBranchName
