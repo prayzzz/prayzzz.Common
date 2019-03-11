@@ -42,21 +42,22 @@ steps:
     projects: '**/*.Test.csproj'
     arguments: --configuration $(Configuration)
 
-#
-# CI 
-#
 - task: DotNetCoreCLI@2
-  displayName: dotnet pack (CI)
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), not(startsWith(variables['Build.SourceBranch'], 'refs/tags/')))
+  displayName: dotnet pack
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   inputs:
     command: pack
     packagesToPack: 'src/**/*.csproj'
     versioningScheme: byEnvVar
     versionEnvVar: Version
 
+#
+# CI 
+#
+
 - task: DotNetCoreCLI@2
-  displayName: dotnet push (CI)
-  condition: and(succeeded(), or(ne(variables['Build.Reason'], 'PullRequest'), startsWith(variables['Build.SourceBranch'], 'refs/tags/')))
+  displayName: dotnet push (Artifacts)
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), not(startsWith(variables['Build.SourceBranch'], 'refs/tags/')))
   inputs:
     command: push
     publishVstsFeed: nupkg
@@ -64,17 +65,9 @@ steps:
 #
 # Tag
 # 
+-
 - task: DotNetCoreCLI@2
-  displayName: dotnet pack (Tag)
-  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
-  inputs:
-    command: pack
-    packagesToPack: 'src/**/*.csproj'
-    versioningScheme: byEnvVar
-    versionEnvVar: Version
-
-- task: DotNetCoreCLI@2
-  displayName: dotnet push (Tag)
+  displayName: dotnet push (NuGet)
   condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
   inputs:
     command: push
