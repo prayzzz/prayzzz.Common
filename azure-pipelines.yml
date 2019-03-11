@@ -6,68 +6,80 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 variables:
-  BuildConfiguration: Release
-  Major: '1'
-  Minor: '0'
-  Patch: '0'
-  BuildRevision: $[counter('buildrevision', 100)]
-  BuildVersion: $(Major).$(Minor).$(Patch).$(BuildRevision)-$(Build.SourceBranchName)
+  Configuration: Release
+  Version: 0.0.0-unknown
 
-name: $(BuildRevision)-$(Build.SourceBranchName)
+name: unknown
 
 steps:
+- task: PowerShell@2
+  displayName: Set Version
+  inputs:
+    targetType: inline
+    script: |
+      $v = git describe
+      Write-Host "##vso[task.setvariable variable=Version]$v"      
+
+- task: PowerShell@2
+  displayName: Set BuildNumber
+  inputs:
+    targetType: inline
+    script: |
+      $v = git describe
+      Write-Host "##vso[build.updatebuildnumber]$v"  
+
 - task: DotNetCoreCLI@2
   displayName: dotnet build
   inputs:
     command: build
     projects: '**/*.csproj'
-    arguments: --configuration $(BuildConfiguration)
+    arguments: --configuration $(Configuration)
 
 - task: DotNetCoreCLI@2
   displayName: dotnet test
   inputs:
     command: test
     projects: '**/*.Test.csproj'
-    arguments: --configuration $(BuildConfiguration)
+    arguments: --configuration $(Configuration)
 
-  #
-  # CI 
-  #
+#
+# CI 
+#
 - task: DotNetCoreCLI@2
   displayName: dotnet pack (CI)
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), not(startsWith(variables['Build.SourceBranch'], 'refs/tags/')))
   inputs:
-      command: pack
-      packagesToPack: 'src/**/*.csproj'
-      versioningScheme: byEnvVar
-      versionEnvVar: BuildVersion
+    command: pack
+    packagesToPack: 'src/**/*.csproj'
+    versioningScheme: byEnvVar
+    versionEnvVar: Version
 
 - task: DotNetCoreCLI@2
   displayName: dotnet push (CI)
   condition: and(succeeded(), or(ne(variables['Build.Reason'], 'PullRequest'), startsWith(variables['Build.SourceBranch'], 'refs/tags/')))
   inputs:
-      command: push
-      publishVstsFeed: nupkg
+    command: push
+    publishVstsFeed: nupkg
 
-  #
-  # Tag
-  # 
-#- task: DotNetCoreCLI@2
-#  displayName: dotnet pack (Tag)
-#  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
-#  inputs:
-#    command: pack
-#    packagesToPack: 'src/**/*.csproj'
-#    versioningScheme: byEnvVar
-#    versionEnvVar: Build.SourceBranchName
 #
-#- task: DotNetCoreCLI@2
-#  displayName: dotnet push (Tag)
-#  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
-#  inputs:
-#    command: push
-#    publishVstsFeed: nupkg
-#    nuGetFeedType: external
-#    publishFeedCredentials: 'NuGet'
-#    versioningScheme: byEnvVar
-#    versionEnvVar: Build.SourceBranchName
+# Tag
+# 
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack (Tag)
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+  inputs:
+    command: pack
+    packagesToPack: 'src/**/*.csproj'
+    versioningScheme: byEnvVar
+    versionEnvVar: Version
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet push (Tag)
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+  inputs:
+    command: push
+    publishVstsFeed: nupkg
+    nuGetFeedType: external
+    publishFeedCredentials: 'NuGet'
+    versioningScheme: byEnvVar
+    versionEnvVar: Version
