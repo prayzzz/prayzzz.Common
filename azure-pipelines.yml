@@ -65,7 +65,7 @@ steps:
 #
 # Tag
 # 
--
+
 - task: DotNetCoreCLI@2
   displayName: dotnet push (NuGet)
   condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
