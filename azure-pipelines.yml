@@ -52,22 +52,22 @@ steps:
   #
   # Tag
   # 
-- task: DotNetCoreCLI@2
-  displayName: dotnet pack (Tag)
-  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
-  inputs:
-    command: pack
-    packagesToPack: 'src/**/*.csproj'
-    versioningScheme: byEnvVar
-    versionEnvVar: Build.SourceBranchName
-
-- task: DotNetCoreCLI@2
-  displayName: dotnet push (Tag)
-  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
-  inputs:
-    command: push
-    publishVstsFeed: nupkg
-    nuGetFeedType: external
-    publishFeedCredentials: 'NuGet'
-    versioningScheme: byEnvVar
-    versionEnvVar: Build.SourceBranchName
+#- task: DotNetCoreCLI@2
+#  displayName: dotnet pack (Tag)
+#  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+#  inputs:
+#    command: pack
+#    packagesToPack: 'src/**/*.csproj'
+#    versioningScheme: byEnvVar
+#    versionEnvVar: Build.SourceBranchName
+#
+#- task: DotNetCoreCLI@2
+#  displayName: dotnet push (Tag)
+#  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+#  inputs:
+#    command: push
+#    publishVstsFeed: nupkg
+#    nuGetFeedType: external
+#    publishFeedCredentials: 'NuGet'
+#    versioningScheme: byEnvVar
+#    versionEnvVar: Build.SourceBranchName
