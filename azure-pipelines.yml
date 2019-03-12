@@ -2,6 +2,14 @@
 # Pack nupkg for every successful build, except pull requests and tags, push to Azure Artifacts
 # Pack nupkg for tags, with the name of the tag, push to NuGet
 
+trigger:
+  branches:
+    include:
+    - *
+  tags:
+    include:
+    - *
+
 pool:
   vmImage: 'Ubuntu 16.04'
 
