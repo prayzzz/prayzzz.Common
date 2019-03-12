@@ -5,10 +5,10 @@
 trigger:
   branches:
     include:
-    - *
+    - "*"
   tags:
     include:
-    - *
+    - "*"
 
 pool:
   vmImage: 'Ubuntu 16.04'
