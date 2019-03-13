@@ -60,18 +60,18 @@ steps:
     versionEnvVar: Version
 
 #
-# CI 
+# Azure Artifacts 
 #
 
 - task: DotNetCoreCLI@2
   displayName: dotnet push (Artifacts)
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), not(startsWith(variables['Build.SourceBranch'], 'refs/tags/')))
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   inputs:
     command: push
     publishVstsFeed: nupkg
 
 #
-# Tag
+# NuGet.org
 # 
 
 - task: NuGetCommand@2
