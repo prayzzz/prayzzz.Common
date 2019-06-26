@@ -71,6 +71,20 @@ steps:
     publishVstsFeed: nupkg
 
 #
+# Github 
+#
+
+- task: NuGetCommand@2
+  displayName: dotnet push (GitHub)
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  inputs:
+    command: push
+    nuGetFeedType: external
+    publishFeedCredentials: 'GitHub nuget registry'
+    versioningScheme: byEnvVar
+    versionEnvVar: Version
+
+#
 # NuGet.org
 # 
 
