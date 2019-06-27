@@ -2,9 +2,10 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <PackageLicenseUrl>https://github.com/prayzzz/prayzzz.Common/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageLicenseUrl>https://github.com/prayzzz/prz.Common/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageProjectUrl>https://github.com/prayzzz/prz.Common</PackageProjectUrl>
         <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/prayzzz/prayzzz.Common</RepositoryUrl>
+        <RepositoryUrl>https://github.com/prayzzz/prz.Common</RepositoryUrl>
         <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
         <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
         <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
