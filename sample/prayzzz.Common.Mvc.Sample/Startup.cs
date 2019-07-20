@@ -22,7 +22,7 @@ namespace prayzzz.Common.Mvc.Sample
             services.AddPrzMetrics("SampleApp");
 
             services.AddMvc()
-                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_0)
                     .AddPrzMetrics();
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace prayzzz.Common.Mvc.Sample.Controllers
@@ -12,6 +13,13 @@ namespace prayzzz.Common.Mvc.Sample.Controllers
         public ActionResult<IEnumerable<string>> Get()
         {
             return new[] { "value1", "value2" };
+        }
+
+        // GET api/values
+        [HttpGet("ex")]
+        public ActionResult<IEnumerable<string>> Ex()
+        {
+            throw new Exception();
         }
 
         // GET api/values/5
