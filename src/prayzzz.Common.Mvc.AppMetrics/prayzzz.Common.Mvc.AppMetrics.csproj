@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <Import Project="..\..\build\common.props" />
     <Import Project="..\..\build\sourcelink.props" />
-
+    
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <AssemblyName>prayzzz.Common.Mvc.AppMetrics</AssemblyName>
+        <PackageTags>common;mvc;metrics</PackageTags>
     </PropertyGroup>
-
+    
     <ItemGroup>
         <ProjectReference Include="..\prayzzz.Common.Mvc\prayzzz.Common.Mvc.csproj" />
     </ItemGroup>

@@ -1,13 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <Import Project="..\..\build\common.props" />
     <Import Project="..\..\build\sourcelink.props" />
+
     <PropertyGroup>
         <AssemblyName>prayzzz.Common.Mvc</AssemblyName>
         <PackageTags>common;mvc;filters;json</PackageTags>
     </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     </ItemGroup>
+    
     <ItemGroup>
         <ProjectReference Include="..\prayzzz.Common\prayzzz.Common.csproj" />
     </ItemGroup>

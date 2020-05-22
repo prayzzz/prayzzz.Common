@@ -9,14 +9,14 @@ namespace prayzzz.Common.Mvc.AppMetrics
             return context.Items.ContainsKey(PrzMetricConstants.MetricsCurrentRouteName);
         }
 
-        public static void AddPrzMetricsCurrentRouteName(this HttpContext context, string metricName)
+        public static void AddPrzMetricsCurrentRouteName(this HttpContext context, string route)
         {
             if (context.Items.ContainsKey(PrzMetricConstants.MetricsCurrentRouteName))
             {
                 return;
             }
 
-            context.Items.Add(PrzMetricConstants.MetricsCurrentRouteName, metricName);
+            context.Items.Add(PrzMetricConstants.MetricsCurrentRouteName, route.ToLowerInvariant());
         }
 
         public static string GetPrzMetricsCurrentRouteName(this HttpContext context)

@@ -8,11 +8,16 @@ namespace prayzzz.Common.Mvc.Sample.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        [HttpGet("Get200")]
+        public ActionResult<IEnumerable<string>> Get200()
         {
-            return new[] { "value1", "value2" };
+            return new StatusCodeResult(200);
+        }
+        
+        [HttpGet("Get201")]
+        public ActionResult<IEnumerable<string>> Get201()
+        {
+            return new StatusCodeResult(201);
         }
 
         // GET api/values

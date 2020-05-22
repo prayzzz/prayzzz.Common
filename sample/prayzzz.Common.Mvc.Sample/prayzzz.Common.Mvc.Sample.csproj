@@ -6,13 +6,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.App"/>
-        <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All"/>
+        <PackageReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\prayzzz.Common.Mvc.AppMetrics\prayzzz.Common.Mvc.AppMetrics.csproj"/>
-        <ProjectReference Include="..\..\src\prayzzz.Common.Mvc\prayzzz.Common.Mvc.csproj"/>
+        <ProjectReference Include="..\..\src\prayzzz.Common.Mvc.AppMetrics\prayzzz.Common.Mvc.AppMetrics.csproj" />
+        <ProjectReference Include="..\..\src\prayzzz.Common.Mvc\prayzzz.Common.Mvc.csproj" />
     </ItemGroup>
 
 </Project>

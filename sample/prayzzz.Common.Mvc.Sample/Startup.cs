@@ -40,7 +40,11 @@ namespace prayzzz.Common.Mvc.Sample
             app.UseHttpsRedirection();
 
             app.UsePrzMetrics();
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute("default_area", "{area:exists}/{controller}/{action=Index}/{id?}");
+                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }
